@@ -144,6 +144,25 @@
 .contact-form button:hover {
   background: #1da1f2;
 }
+    
+    /* Lightbox Arrows */
+.lightbox .prev, .lightbox .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  padding: 16px;
+  margin-top: -22px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 40px;
+  user-select: none;
+  transition: 0.3s;
+}
+.lightbox .prev { left: 10px; }
+.lightbox .next { right: 10px; }
+.lightbox .prev:hover, .lightbox .next:hover {
+  color: #bbb;
+}
 
   </style>
 </head>
@@ -188,6 +207,10 @@
   <section id="art">
     <h2>My Artwork</h2>
     <div class="art-gallery">
+      <div class="art-item comic-set">
+        <img src="images/comic1.png" alt="Comic Book – Page 1">
+        <div class="overlay">3-Page Comic Book</div>
+      </div>
       <div class="art-item">
         <img src="images/art1.png" alt="K'nala's Guitar - Concept Art">
         <div class="overlay">K'nala's Guitar - Concept Art</div>
@@ -228,12 +251,14 @@
     <p>© 2025 Jordan Celaya</p>
   </footer>
 
-  <!-- Lightbox Modal -->
-  <div id="lightbox" class="lightbox">
-    <span class="close">&times;</span>
-    <img class="lightbox-content" id="lightbox-img">
-    <div id="caption"></div>
-  </div>
+ <!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox">
+  <span class="close">&times;</span>
+  <span class="prev">&#10094;</span>
+  <span class="next">&#10095;</span>
+  <img class="lightbox-content" id="lightbox-img">
+  <div id="caption"></div>
+</div>
 
   <script>
     const lightbox = document.getElementById("lightbox");
