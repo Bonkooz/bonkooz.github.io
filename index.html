@@ -14,18 +14,34 @@
     footer { background:#111; color:#fff; text-align:center; padding:20px; }
 
     /* Video scroll */
-    .video-scroll {
-      display: flex;
-      overflow-x: auto;
-      gap: 20px;
-      padding: 10px;
-      scroll-snap-type: x mandatory;
-    }
-    .video-scroll iframe {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      border-radius: 10px;
-    }
+.video-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.video-item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.video-item iframe {
+  width: 400px;   /* default size */
+  height: 225px;  /* 16:9 aspect ratio */
+  border-radius: 10px;
+  display: block;
+}
+
+/* Hover effect */
+.video-item:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
+}
 
     /* Art gallery */
     .art-gallery {
@@ -105,9 +121,15 @@
   <section id="videos">
     <h2>My Films</h2>
     <div class="video-scroll">
-      <iframe width="300" height="180" src="https://www.youtube.com/embed/wtAR97q_B-8" frameborder="0" allowfullscreen></iframe>
-      <iframe width="300" height="180" src="https://www.youtube.com/embed/mldbCkNu0Y0" frameborder="0" allowfullscreen></iframe>
-      <iframe width="300" height="180" src="https://www.youtube.com/embed/5VyP8e4-QoE" frameborder="0" allowfullscreen></iframe>
+       <div class="video-item">
+      <iframe width="500" height="280" src="https://www.youtube.com/embed/wtAR97q_B-8" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="video-item">
+      <iframe width="500" height="280" src="https://www.youtube.com/embed/mldbCkNu0Y0" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div class="video-item">
+      <iframe width="500" height="280" src="https://www.youtube.com/embed/5VyP8e4-QoE" frameborder="0" allowfullscreen></iframe>
+      </div>
     </div>
   </section>
 
@@ -116,34 +138,20 @@
     <h2>My Artwork</h2>
     <div class="art-gallery">
       <div class="art-item">
-        <img src="images/art1.jpg" alt="Artwork 1 – Digital Illustration">
+        <img src="images/art1.png" alt="Artwork 1 – Digital Illustration">
         <div class="overlay">Artwork 1 – Digital Illustration</div>
       </div>
       <div class="art-item">
-        <img src="images/art2.jpg" alt="Artwork 2 – Comic Book">
+        <img src="images/art2.png" alt="Artwork 2 – Comic Book">
         <div class="overlay">Artwork 2 – Comic Book</div>
       </div>
       <div class="art-item">
-        <img src="images/art3.jpg" alt="Artwork 3 – Cartoon Design">
+        <img src="images/art3.png" alt="Artwork 3 – Cartoon Design">
         <div class="overlay">Artwork 3 – Cartoon Design</div>
       </div>
     </div>
   </section>
-  
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="card">
-        <h3>Project 1</h3>
-        <p>Short description of the project.</p>
-      </div>
-      <div class="card">
-        <h3>Project 2</h3>
-        <p>Short description of the project.</p>
-      </div>
-    </div>
-  </section>
-  
+   
   <section id="contact">
     <h2>Contact</h2>
     <p>Email: jordancelaya.art@gmail.com</p>
