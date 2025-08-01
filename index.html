@@ -109,6 +109,42 @@
       font-size: 40px; font-weight: bold; cursor: pointer;
     }
     .close:hover { color: #bbb; }
+
+    /* Contact Form */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+.contact-form input, 
+.contact-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-top: 5px;
+}
+.contact-form button {
+  padding: 12px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.contact-form button:hover {
+  background: #1da1f2;
+}
+
   </style>
 </head>
 <body>
@@ -153,18 +189,39 @@
     <h2>My Artwork</h2>
     <div class="art-gallery">
       <div class="art-item">
-        <img src="images/art1.png" alt="Artwork 1 – Digital Illustration">
+        <img src="images/art1.png" alt="K'nala's Guitar - Concept Art">
         <div class="overlay">K'nala's Guitar - Concept Art</div>
       </div>
       <div class="art-item">
-        <img src="images/art2.png" alt="Artwork 2 – Sketch">
+        <img src="images/art2.png" alt="Invisible Cities - Melania Comic - Final Assignment">
         <div class="overlay">Invisible Cities - Melania Comic - Final Assignment</div>
       </div>
       <div class="art-item">
-        <img src="images/art3.png" alt="Artwork 3 – Cartoon Design">
+        <img src="images/art3.png" alt="Romecha & Naomi - Character Concept">
         <div class="overlay">Romecha & Naomi - Character Concept</div>
       </div>
     </div>
+  </section>
+
+    <!-- Contact Section -->
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p>If you’d like to collaborate, commission work, or just say hello, drop me a note here:</p>
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="contact-form">
+      <label>
+        Your Name:
+        <input type="text" name="name" required>
+      </label>
+      <label>
+        Your Email:
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        Message:
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <button type="submit">Send Message</button>
+    </form>
   </section>
 
   <footer>
