@@ -260,11 +260,64 @@
   <div id="caption"></div>
 </div>
 
-  <script>
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const captionText = document.getElementById("caption");
-    const close = document.getElementsByClassName("close")[0];
+ <script>
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const captionText = document.getElementById("caption");
+  const close = document.getElementsByClassName("close")[0];
+  const prev = document.querySelector(".lightbox .prev");
+  const next = document.querySelector(".lightbox .next");
+
+  // All artwork images
+  const artworks = Array.from(document.querySelectorAll(".art-item img"));
+
+  // Comic book pages
+  const comicPages = [
+    "images/comic1.png",
+    "images/comic2.png",
+    "images/comic3.png"
+  ];
+
+  let currentIndex = 0;
+  let currentSet = [];
+
+  function openLightbox(src, alt, set = [src]) {
+    currentSet = set;
+    currentIndex = 0;
+    lightbox.style.display = "block";
+    lightboxImg.src = currentSet[currentIndex];
+    captionText.innerHTML = alt;
+  }
+
+  // Regular artworks
+  artworks.forEach(img => {
+    if (!img.closest(".comic-set")) {
+      img.onclick = function () {
+        openLightbox(this.src, this.alt);
+      };
+    }
+  });
+
+  // Comic set click (open page 1 with navigation enabled)
+  document.querySelector(".comic-set img").onclick = function () {
+    openLightbox(comicPages[0], "Comic Book – Page 1", comicPages);
+  };
+
+  // Close button
+  close.onclick = () => lightbox.style.display = "none";
+
+  // Prev / Next
+  prev.onclick = () => {
+    currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
+    lightboxImg.src = currentSet[currentIndex];
+    captionText.innerHTML = `Page ${currentIndex + 1}`;
+  };
+  next.onclick = () => {
+    currentIndex = (currentIndex + 1) % currentSet.length;
+    lightboxImg.src = currentSet[currentIndex];
+    captionText.innerHTML = `Page ${currentIndex + 1}`;
+  };
+</script>
 
     document.querySelectorAll(".art-item img").forEach(img => {
       img.onclick = function(){
