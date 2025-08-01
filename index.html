@@ -166,7 +166,7 @@
     /* Zoom buttons */
 .lightbox .zoom-in, .lightbox .zoom-out {
   position: absolute;
-  bottom: 30px;
+  bottom: 100px; /* ⬆ lift buttons above system UI bars */
   right: 30px;
   background: rgba(0,0,0,0.7);
   color: #fff;
@@ -176,14 +176,12 @@
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.3s;
+  z-index: 1000; /* make sure they’re always on top */
 }
 .lightbox .zoom-out {
-  right: 80px; /* position left of zoom-in */
+  right: 80px;
 }
-.lightbox .zoom-in:hover, .lightbox .zoom-out:hover {
-  background: rgba(255,255,255,0.3);
-}
-
+    
   </style>
 </head>
 <body>
@@ -293,23 +291,20 @@
   const zoomOut = document.querySelector(".lightbox .zoom-out");
 
   const artworks = Array.from(document.querySelectorAll(".art-item img"));
-
-  // Comic pages
-  const comicPages = [
-    "images/comic1.png",
-    "images/comic2.png",
-    "images/comic3.png"
-  ];
+  const comicPages = ["images/Page1-Melaia.png", "images/Page2-Melaia.png", "images/Page3-Melaia.png"];
 
   let currentIndex = 0;
   let currentSet = [];
   let zoomLevel = 1;
 
+  // Dragging vars
+  let isDragging = false;
+  let startX, startY, imgX = 0, imgY = 0;
+
   function openLightbox(src, alt, set = [src]) {
     currentSet = set;
     currentIndex = 0;
-    zoomLevel = 1;
-    lightboxImg.style.transform = "scale(1)";
+    resetZoom();
     lightbox.style.display = "block";
     lightboxImg.src = currentSet[currentIndex];
     captionText.innerHTML = alt;
@@ -324,7 +319,15 @@
     }
   }
 
-  // Regular artworks
+  // Reset zoom & pan
+  function resetZoom() {
+    zoomLevel = 1;
+    imgX = 0;
+    imgY = 0;
+    lightboxImg.style.transform = "translate(0px,0px) scale(1)";
+  }
+
+  // Artworks
   artworks.forEach(img => {
     if (!img.closest(".comic-set")) {
       img.onclick = function () {
@@ -341,35 +344,62 @@
   // Close button
   close.onclick = () => {
     lightbox.style.display = "none";
-    zoomLevel = 1;
-    lightboxImg.style.transform = "scale(1)";
+    resetZoom();
   };
 
   // Prev / Next
-  prev.onclick = () => {
-    currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
+  function changePage(step) {
+    currentIndex = (currentIndex + step + currentSet.length) % currentSet.length;
     lightboxImg.src = currentSet[currentIndex];
     captionText.innerHTML = `Page ${currentIndex + 1} / ${currentSet.length}`;
-    zoomLevel = 1;
-    lightboxImg.style.transform = "scale(1)";
-  };
-  next.onclick = () => {
-    currentIndex = (currentIndex + 1) % currentSet.length;
-    lightboxImg.src = currentSet[currentIndex];
-    captionText.innerHTML = `Page ${currentIndex + 1} / ${currentSet.length}`;
-    zoomLevel = 1;
-    lightboxImg.style.transform = "scale(1)";
-  };
+    resetZoom();
+  }
+  prev.onclick = () => changePage(-1);
+  next.onclick = () => changePage(1);
 
-  // Zoom controls
+  // Zoom
   zoomIn.onclick = () => {
     zoomLevel += 0.2;
-    lightboxImg.style.transform = `scale(${zoomLevel})`;
+    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
   };
   zoomOut.onclick = () => {
     zoomLevel = Math.max(1, zoomLevel - 0.2);
-    lightboxImg.style.transform = `scale(${zoomLevel})`;
+    if (zoomLevel === 1) { imgX = 0; imgY = 0; }
+    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
   };
+
+  // Drag-to-pan (mouse)
+  lightboxImg.addEventListener("mousedown", e => {
+    if (zoomLevel <= 1) return;
+    isDragging = true;
+    startX = e.clientX - imgX;
+    startY = e.clientY - imgY;
+    e.preventDefault();
+  });
+  window.addEventListener("mousemove", e => {
+    if (!isDragging) return;
+    imgX = e.clientX - startX;
+    imgY = e.clientY - startY;
+    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+  });
+  window.addEventListener("mouseup", () => isDragging = false);
+
+  // Drag-to-pan (touch for iOS/Android)
+  lightboxImg.addEventListener("touchstart", e => {
+    if (zoomLevel <= 1) return;
+    isDragging = true;
+    const touch = e.touches[0];
+    startX = touch.clientX - imgX;
+    startY = touch.clientY - imgY;
+  });
+  lightboxImg.addEventListener("touchmove", e => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    imgX = touch.clientX - startX;
+    imgY = touch.clientY - startY;
+    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+  });
+  lightboxImg.addEventListener("touchend", () => isDragging = false);
 </script>
 
 </body>
