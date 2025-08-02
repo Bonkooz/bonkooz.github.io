@@ -43,9 +43,6 @@
 
     footer { background: #111; color: #fff; text-align: center; padding: 20px; margin-top: 60px; }
     
-    body, html { touch-action: manipulation; }
-    .lightbox { touch-action: none; }
-
     /* LIGHTBOX */
     #lightbox {
       display: none;
@@ -55,7 +52,6 @@
       background-color: rgba(0,0,0,0.95);
       overflow: hidden;
       text-align: center;
-      padding: 20px;
       box-sizing: border-box;
     }
 
@@ -70,12 +66,17 @@
       transition: transform 0.3s ease;
     }
 
-    #caption {
-      position: relative;
-      z-index: 5;
+    #caption-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.85);
       color: #ddd;
       font-size: 1.1rem;
-      margin-top: 15px;
+      padding: 10px;
+      text-align: center;
+      z-index: 6;
     }
 
     #lightbox .close,
@@ -93,6 +94,8 @@
       border-radius: 50%;
       width: 45px;
       height: 45px;
+      line-height: 45px;
+      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -102,8 +105,8 @@
     #lightbox .close { top: 20px; right: 20px; }
     #lightbox .prev { top: 50%; left: 20px; transform: translateY(-50%); }
     #lightbox .next { top: 50%; right: 20px; transform: translateY(-50%); }
-    #lightbox .zoom-in { bottom: 20px; left: 50%; transform: translateX(-60px); }
-    #lightbox .zoom-out { bottom: 20px; left: 50%; transform: translateX(60px); }
+    #lightbox .zoom-in { bottom: 70px; right: 20px; }
+    #lightbox .zoom-out { bottom: 20px; right: 20px; }
 
     #lightbox .close:hover,
     #lightbox .prev:hover,
@@ -123,6 +126,7 @@
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
+        line-height: 40px;
       }
     }
   </style>
@@ -177,7 +181,7 @@
     <span class="zoom-in"><i class="fas fa-search-plus"></i></span>
     <span class="zoom-out"><i class="fas fa-search-minus"></i></span>
     <img id="lightbox-img" alt="" draggable="false"/>
-    <div id="caption"></div>
+    <div id="caption-bar"><span id="caption"></span></div>
   </div>
 
   <script>
@@ -189,9 +193,10 @@
           closeBtn = document.querySelector('.close'),
           zoomIn = document.querySelector('.zoom-in'),
           zoomOut = document.querySelector('.zoom-out'),
-          items = Array.from(document.querySelectorAll('.art-item img')),
           comicPages = ['images/Page1-Melaia.png','images/Page2-Melaia.png','images/Page3-Melaia.png'];
+
     let currentSet = [], currentIndex = 0, zoomLevel = 1, imgX = 0, imgY = 0, isDragging = false, startX = 0, startY = 0;
+    let touchStartX = 0, touchEndX = 0;
 
     function openLB(set, idx, alt) {
       currentSet = set;
@@ -201,8 +206,8 @@
       imgEl.alt = alt;
       captionEl.textContent = alt;
       lightbox.style.display = 'block';
-      prevBtn.style.display = set.length > 1 ? 'block' : 'none';
-      nextBtn.style.display = set.length > 1 ? 'block' : 'none';
+      prevBtn.style.display = set.length > 1 ? 'flex' : 'none';
+      nextBtn.style.display = set.length > 1 ? 'flex' : 'none';
     }
 
     document.querySelectorAll('.art-item').forEach((item) => {
@@ -232,6 +237,7 @@
     function resetZoom() { zoomLevel = 1; imgX = imgY = 0; imgEl.style.transform = 'translate(0px, 0px) scale(1)'; }
     function updateTransform() { imgEl.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`; }
 
+    // Dragging for zoomed images
     imgEl.addEventListener('mousedown', e => {
       if (zoomLevel <= 1) return;
       isDragging = true;
@@ -247,11 +253,15 @@
 
     window.addEventListener('mouseup', () => { isDragging = false; });
 
+    // Touch dragging + swipe
     imgEl.addEventListener('touchstart', e => {
-      if (zoomLevel <= 1) return;
-      isDragging = true;
-      const t = e.touches[0];
-      startX = t.clientX - imgX; startY = t.clientY - imgY;
+      if (zoomLevel <= 1) {
+        touchStartX = e.touches[0].clientX;
+      } else {
+        isDragging = true;
+        const t = e.touches[0];
+        startX = t.clientX - imgX; startY = t.clientY - imgY;
+      }
     });
 
     imgEl.addEventListener('touchmove', e => {
@@ -261,7 +271,14 @@
       updateTransform();
     });
 
-    imgEl.addEventListener('touchend', () => { isDragging = false; });
+    imgEl.addEventListener('touchend', e => {
+      if (zoomLevel <= 1) {
+        touchEndX = e.changedTouches[0].clientX;
+        if (touchEndX - touchStartX > 50) changePage(-1); // swipe right
+        if (touchStartX - touchEndX > 50) changePage(1);  // swipe left
+      }
+      isDragging = false;
+    });
 
     document.addEventListener('keydown', e => {
       if (lightbox.style.display === 'block') {
@@ -271,7 +288,6 @@
       }
     });
 
-    // Click outside image closes lightbox
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) lightbox.style.display = 'none';
     });
