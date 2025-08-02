@@ -20,19 +20,19 @@
     section h2 { text-align: center; margin-bottom: 20px; font-weight: 600; font-size: 2rem; }
     #about p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 20px; text-align: center; line-height: 1.5; }
 
-    .video-scroll { display: flex; overflow-x: auto; gap: 40px; padding: 20px 0; scroll-snap-type: x mandatory; scrollbar-width: none; overflow-visible; position: relative; z-index:1; }
+    .video-scroll { display: flex; overflow-x: auto; gap: 40px; padding: 20px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .video-scroll::-webkit-scrollbar { display: none; }
-    .video-item { flex: 0 0 auto; scroll-snap-align: start; transition: transform .3s, box-shadow .3s; border-radius: 12px; overflow: visible; position: relative; z-index:1; }
+    .video-item { flex: 0 0 auto; scroll-snap-align: start; transition: transform .3s, box-shadow .3s; border-radius: 12px; overflow: hidden; position: relative; }
     .video-item iframe { width: 800px; height: 450px; border-radius: 12px; display: block; }
     .video-item:hover { transform: scale(1.08); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6); z-index:10; }
     @media (max-width:900px){ .video-item iframe { width:100%; height:220px; } }
 
     .art-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:30px; }
-    .art-item { position: relative; cursor: pointer; transition: transform .3s, box-shadow .3s; border-radius:12px; overflow: hidden; z-index:1; background: transparent; }
+    .art-item { position: relative; cursor: pointer; transition: transform .3s, box-shadow .3s; border-radius:12px; overflow: hidden; }
     .art-item img { width: 100%; height: auto; object-fit: contain; border-radius:12px; display: block; }
     .art-item .overlay { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color:#fff; padding:10px; opacity:0; transition: opacity .3s; border-radius: 0 0 12px 12px; }
     .art-item:hover .overlay { opacity: 1; }
-    .art-item:hover { transform: scale(1.08); box-shadow: 0 8px 25px rgba(0,0,0,0.6); z-index:10; }
+    .art-item:hover { transform: scale(1.08); box-shadow: 0 8px 25px rgba(0,0,0,0.6); }
 
     .contact-form { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 20px auto; }
     .contact-form label { display: flex; flex-direction: column; font-weight: bold; }
@@ -42,17 +42,17 @@
     .contact-form button:hover { background: #1da1f2; }
 
     footer { background: #111; color: #fff; text-align: center; padding: 20px; margin-top: 60px; }
-
+    
     body, html { touch-action: manipulation; }
     .lightbox { touch-action: none; }
 
-    /* Lightbox base */
+    /* LIGHTBOX */
     #lightbox {
       display: none;
       position: fixed;
       z-index: 1000;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.95);
+      background-color: rgba(0,0,0,0.95);
       overflow: hidden;
       text-align: center;
       padding: 20px;
@@ -60,6 +60,8 @@
     }
 
     #lightbox img {
+      position: relative;
+      z-index: 5;
       max-width: 90%;
       max-height: 80%;
       margin-top: 5%;
@@ -69,18 +71,20 @@
     }
 
     #caption {
+      position: relative;
+      z-index: 5;
       color: #ddd;
       font-size: 1.1rem;
       margin-top: 15px;
     }
 
-    /* Controls */
     #lightbox .close,
     #lightbox .prev,
     #lightbox .next,
     #lightbox .zoom-in,
     #lightbox .zoom-out {
       position: absolute;
+      z-index: 10;
       background: rgba(0,0,0,0.6);
       color: white;
       font-size: 1.4rem;
@@ -166,14 +170,13 @@
   </section>
 
   <!-- Lightbox Modal -->
-  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <span class="close" role="button" aria-label="Close"><i class="fas fa-times"></i></span>
-    <span class="prev" role="button" aria-label="Previous"><i class="fas fa-chevron-left"></i></span>
-    <span class="next" role="button" aria-label="Next"><i class="fas fa-chevron-right"></i></span>
-    <span class="zoom-in" role="button" aria-label="Zoom in"><i class="fas fa-search-plus"></i></span>
-    <span class="zoom-out" role="button" aria-label="Zoom out"><i class="fas fa-search-minus"></i></span>
-    <!-- Missing elements added -->
-    <img id="lightbox-img" class="lightbox-content" alt="" draggable="false" tabindex="0" />
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <span class="close"><i class="fas fa-times"></i></span>
+    <span class="prev"><i class="fas fa-chevron-left"></i></span>
+    <span class="next"><i class="fas fa-chevron-right"></i></span>
+    <span class="zoom-in"><i class="fas fa-search-plus"></i></span>
+    <span class="zoom-out"><i class="fas fa-search-minus"></i></span>
+    <img id="lightbox-img" alt="" draggable="false"/>
     <div id="caption"></div>
   </div>
 
@@ -198,14 +201,13 @@
       imgEl.alt = alt;
       captionEl.textContent = alt;
       lightbox.style.display = 'block';
-      prevBtn.style.display = set.length > 1 ? 'flex' : 'none';
-      nextBtn.style.display = set.length > 1 ? 'flex' : 'none';
+      prevBtn.style.display = set.length > 1 ? 'block' : 'none';
+      nextBtn.style.display = set.length > 1 ? 'block' : 'none';
     }
 
     document.querySelectorAll('.art-item').forEach((item) => {
       const img = item.querySelector('img');
       const alt = img.alt;
-
       if (item.classList.contains('comic-set')) {
         item.addEventListener('click', () => openLB(comicPages, 0, alt));
       } else {
@@ -234,7 +236,6 @@
       if (zoomLevel <= 1) return;
       isDragging = true;
       startX = e.clientX - imgX; startY = e.clientY - imgY;
-      imgEl.classList.add('grabbing');
       e.preventDefault();
     });
 
@@ -244,9 +245,7 @@
       updateTransform();
     });
 
-    window.addEventListener('mouseup', () => {
-      if (isDragging) { isDragging = false; imgEl.classList.remove('grabbing'); }
-    });
+    window.addEventListener('mouseup', () => { isDragging = false; });
 
     imgEl.addEventListener('touchstart', e => {
       if (zoomLevel <= 1) return;
@@ -270,6 +269,11 @@
         if (e.key === 'ArrowRight') changePage(1);
         if (e.key === 'Escape') lightbox.style.display = 'none';
       }
+    });
+
+    // Click outside image closes lightbox
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.style.display = 'none';
     });
   </script>
 
