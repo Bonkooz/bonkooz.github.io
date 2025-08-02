@@ -42,56 +42,85 @@
     .contact-form button:hover { background: #1da1f2; }
 
     footer { background: #111; color: #fff; text-align: center; padding: 20px; margin-top: 60px; }
-    
+
     body, html { touch-action: manipulation; }
     .lightbox { touch-action: none; }
 
+    /* Lightbox base */
+    #lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.95);
+      overflow: hidden;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      margin-top: 5%;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+      transition: transform 0.3s ease;
+    }
+
+    #caption {
+      color: #ddd;
+      font-size: 1.1rem;
+      margin-top: 15px;
+    }
+
+    /* Controls */
     #lightbox .close,
-#lightbox .prev,
-#lightbox .next,
-#lightbox .zoom-in,
-#lightbox .zoom-out {
-  position: absolute;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 1.4rem;
-  cursor: pointer;
-  user-select: none;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s;
-}
+    #lightbox .prev,
+    #lightbox .next,
+    #lightbox .zoom-in,
+    #lightbox .zoom-out {
+      position: absolute;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 1.4rem;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
 
-#lightbox .close { top: 20px; right: 20px; }
-#lightbox .prev { top: 50%; left: 20px; transform: translateY(-50%); }
-#lightbox .next { top: 50%; right: 20px; transform: translateY(-50%); }
-#lightbox .zoom-in { bottom: 20px; left: 50%; transform: translateX(-60px); }
-#lightbox .zoom-out { bottom: 20px; left: 50%; transform: translateX(60px); }
+    #lightbox .close { top: 20px; right: 20px; }
+    #lightbox .prev { top: 50%; left: 20px; transform: translateY(-50%); }
+    #lightbox .next { top: 50%; right: 20px; transform: translateY(-50%); }
+    #lightbox .zoom-in { bottom: 20px; left: 50%; transform: translateX(-60px); }
+    #lightbox .zoom-out { bottom: 20px; left: 50%; transform: translateX(60px); }
 
-#lightbox .close:hover,
-#lightbox .prev:hover,
-#lightbox .next:hover,
-#lightbox .zoom-in:hover,
-#lightbox .zoom-out:hover {
-  background: rgba(255,255,255,0.3);
-}
+    #lightbox .close:hover,
+    #lightbox .prev:hover,
+    #lightbox .next:hover,
+    #lightbox .zoom-in:hover,
+    #lightbox .zoom-out:hover {
+      background: rgba(255,255,255,0.3);
+    }
 
-/* Mobile */
-@media (max-width: 768px) {
-  #lightbox .close,
-  #lightbox .prev,
-  #lightbox .next,
-  #lightbox .zoom-in,
-  #lightbox .zoom-out {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-  }
-}
+    @media (max-width: 768px) {
+      #lightbox img { max-width: 95%; max-height: 70%; margin-top: 20%; }
+      #lightbox .close,
+      #lightbox .prev,
+      #lightbox .next,
+      #lightbox .zoom-in,
+      #lightbox .zoom-out {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 
@@ -119,7 +148,6 @@
   <section id="videos">
     <h2>My Films</h2>
     <div class="video-scroll">
-      <!-- Replace with your own video embed URLs -->
       <div class="video-item"><iframe src="https://www.youtube.com/embed/wtAR97q_B-8" frameborder="0" allowfullscreen title="Film 1"></iframe></div>
       <div class="video-item"><iframe src="https://www.youtube.com/embed/mldbCkNu0Y0" frameborder="0" allowfullscreen title="Film 2"></iframe></div>
       <div class="video-item"><iframe src="https://www.youtube.com/embed/5VyP8e4-QoE" frameborder="0" allowfullscreen title="Film 3"></iframe></div>
@@ -139,11 +167,14 @@
 
   <!-- Lightbox Modal -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-   <span class="close" role="button" aria-label="Close"><i class="fas fa-times"></i></span>
-   <span class="prev" role="button" aria-label="Previous"><i class="fas fa-chevron-left"></i></span>
-   <span class="next" role="button" aria-label="Next"><i class="fas fa-chevron-right"></i></span>
-   <span class="zoom-in" role="button" aria-label="Zoom in"><i class="fas fa-search-plus"></i></span>
-   <span class="zoom-out" role="button" aria-label="Zoom out"><i class="fas fa-search-minus"></i></span>
+    <span class="close" role="button" aria-label="Close"><i class="fas fa-times"></i></span>
+    <span class="prev" role="button" aria-label="Previous"><i class="fas fa-chevron-left"></i></span>
+    <span class="next" role="button" aria-label="Next"><i class="fas fa-chevron-right"></i></span>
+    <span class="zoom-in" role="button" aria-label="Zoom in"><i class="fas fa-search-plus"></i></span>
+    <span class="zoom-out" role="button" aria-label="Zoom out"><i class="fas fa-search-minus"></i></span>
+    <!-- Missing elements added -->
+    <img id="lightbox-img" class="lightbox-content" alt="" draggable="false" tabindex="0" />
+    <div id="caption"></div>
   </div>
 
   <script>
@@ -167,20 +198,21 @@
       imgEl.alt = alt;
       captionEl.textContent = alt;
       lightbox.style.display = 'block';
-      prevBtn.style.display = set.length > 1 ? 'block' : 'none';
-      nextBtn.style.display = set.length > 1 ? 'block' : 'none';
+      prevBtn.style.display = set.length > 1 ? 'flex' : 'none';
+      nextBtn.style.display = set.length > 1 ? 'flex' : 'none';
     }
 
     document.querySelectorAll('.art-item').forEach((item) => {
-  const img = item.querySelector('img');
-  const alt = img.alt;
+      const img = item.querySelector('img');
+      const alt = img.alt;
 
-  if (item.classList.contains('comic-set')) {
-    item.addEventListener('click', () => openLB(comicPages, 0, alt));
-  } else {
-    item.addEventListener('click', () => openLB([img.src], 0, alt));
-  }
-});
+      if (item.classList.contains('comic-set')) {
+        item.addEventListener('click', () => openLB(comicPages, 0, alt));
+      } else {
+        item.addEventListener('click', () => openLB([img.src], 0, alt));
+      }
+    });
+
     closeBtn.onclick = () => lightbox.style.display = 'none';
 
     function changePage(delta) {
