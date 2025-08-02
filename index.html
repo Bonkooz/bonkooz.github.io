@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jordan Celaya | Portfolio</title>
   <!-- Font Awesome for social media icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; }
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
     header {
       background:#111; color:#fff; padding:20px;
       display: flex; align-items: center; justify-content: space-between;
@@ -25,18 +25,16 @@
       margin-left:20px;
     }
 
-    section { padding:50px; max-width:1100px; margin:auto; }
-    h1, h2 { margin-bottom:15px; text-align: center; }
-    .projects { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-    .card { background:#f4f4f4; padding:20px; border-radius:10px; }
-
+    section { padding:50px; max-width:1200px; margin:auto; }
+    section h2 { text-align:center; } /* Center section headings */
+    h1, h2 { margin-bottom:15px; }
     footer { background:#111; color:#fff; text-align:center; padding:20px; }
 
     /* Video scroll */
     .video-scroll {
       display: flex;
       overflow-x: auto;
-      gap: 20px;
+      gap: 40px;
       padding: 20px 0;
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
@@ -46,36 +44,47 @@
       flex: 0 0 auto;
       scroll-snap-align: start;
       transition: transform 0.3s, box-shadow 0.3s;
-      border-radius: 10px;
-      overflow: hidden;
+      border-radius: 12px;
+      overflow: visible; /* prevent hover cutoff */
     }
-    .video-item iframe, .video-item video {
-      width: 600px;
-      height: 340px;
-      border-radius: 10px;
+    .video-item iframe {
+      width: 800px;  /* bigger for desktop */
+      height: 450px; /* 16:9 ratio */
+      border-radius: 12px;
       display: block;
     }
     .video-item:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      z-index: 5; /* prevent clipping */
+    }
+
+    /* Responsive videos for smaller screens */
+    @media (max-width: 900px) {
+      .video-item iframe {
+        width: 100%;
+        height: 220px;
+      }
     }
 
     /* Art gallery */
     .art-gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px; /* more room to prevent cutoff */
     }
     .art-item {
       position: relative;
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 12px;
+      overflow: visible; /* prevent hover cutoff */
     }
     .art-item img {
       width: 100%;
       height: auto;
       object-fit: contain;
-      border-radius: 10px;
+      border-radius: 12px;
       display: block;
     }
     .art-item .overlay {
@@ -86,12 +95,13 @@
       padding: 10px;
       opacity: 0;
       transition: opacity 0.3s;
-      border-radius: 0 0 10px 10px;
+      border-radius: 0 0 12px 12px;
     }
     .art-item:hover .overlay { opacity: 1; }
     .art-item:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      z-index: 5; /* bring above neighbors */
     }
 
     /* Lightbox */
@@ -102,13 +112,11 @@
     }
     .lightbox-content {
       margin: auto; display: block; max-width: 80%; max-height: 80%;
-      cursor: grab;
     }
     #caption { text-align: center; color: #fff; margin-top: 10px; }
     .close {
       position: absolute; top: 20px; right: 35px; color: #fff;
       font-size: 40px; font-weight: bold; cursor: pointer;
-      z-index: 1001;
     }
     .close:hover { color: #bbb; }
 
@@ -146,7 +154,7 @@
     .contact-form button:hover {
       background: #1da1f2;
     }
-        
+    
     /* Lightbox Arrows */
     .lightbox .prev, .lightbox .next {
       display: none; /* hidden unless comic book is open */
@@ -160,7 +168,6 @@
       font-size: 40px;
       user-select: none;
       transition: 0.3s;
-      z-index: 1001;
     }
     .lightbox .prev { left: 10px; }
     .lightbox .next { right: 10px; }
@@ -169,7 +176,7 @@
     /* Zoom buttons */
     .lightbox .zoom-in, .lightbox .zoom-out {
       position: absolute;
-      bottom: 100px; /* lift above system UI bars */
+      bottom: 100px;
       right: 30px;
       background: rgba(0,0,0,0.7);
       color: #fff;
@@ -179,37 +186,9 @@
       border-radius: 50%;
       cursor: pointer;
       transition: background 0.3s;
-      z-index: 1001;
+      z-index: 1000;
     }
-    .lightbox .zoom-out {
-      right: 80px;
-    }
-
-    /* Responsive */
-    @media (max-width: 720px) {
-      header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      header .info { margin-bottom: 15px; }
-      header img { margin-left: 0; margin-bottom: 15px; }
-      .video-item iframe, .video-item video {
-        width: 90vw;
-        height: 50vw;
-      }
-      .video-scroll {
-        padding: 10px 0;
-        gap: 15px;
-      }
-      .art-gallery {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      }
-      .contact-form {
-        width: 90vw;
-        max-width: none;
-      }
-    }
+    .lightbox .zoom-out { right: 80px; }
   </style>
 </head>
 <body>
@@ -225,44 +204,25 @@
         <a href="https://youtube.com/@Bonkoos" target="_blank"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
-    <img src="images/me.jpg" alt="Photo of Jordan Celaya" />
+    <img src="images/me.jpg" alt="Photo of Jordan Celaya">
   </header>
 
   <section id="about">
     <h2>About Me</h2>
-    <p style="max-width:600px; margin: 0 auto;">My name is Jordan Celaya, and I am a Cartoonist and a Filmmaker. Look around and enjoy.</p>
+    <p style="text-align:center;">My name is Jordan Celaya, and I am a Cartoonist and a Filmmaker. Look around and enjoy.</p>
   </section>
 
-  <!-- YouTube & Local Video Scroll -->
+  <!-- YouTube Video Scroll -->
   <section id="videos">
     <h2>My Films</h2>
-    <div class="video-scroll" id="video-scroll">
-      <!-- YouTube videos -->
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/wtAR97q_B-8" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/mldbCkNu0Y0" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/5VyP8e4-QoE" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/KoxGl3oElv8" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/ED7rcaKqphs" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/YFQ2bB7WifQ" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/dNZUe70Oc2M" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div class="video-item">
-        <iframe src="https://www.youtube.com/embed/sA4pZ5x6OWA" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <!-- Local videos from films/ folder appended by script -->
+    <div class="video-scroll">
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/yd3sQFfv0i4" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/DYdv7fuMH7s" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/7CKwllQWGFY" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/tzDxUuU8SAg" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/rJ83N3_FYpw" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/Yum6Trwtkk" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/1oJIiPiV0z8" frameborder="0" allowfullscreen></iframe></div>
     </div>
   </section>
 
@@ -271,19 +231,19 @@
     <h2>My Artwork</h2>
     <div class="art-gallery">
       <div class="art-item comic-set">
-        <img src="images/Page1-Melaia.png" alt="Comic Book – Page 1" />
+        <img src="images/Page1-Melaia.png" alt="Comic Book – Page 1">
         <div class="overlay">3-Page Comic Book</div>
       </div>
       <div class="art-item">
-        <img src="images/art1.png" alt="K'nala's Guitar - Concept Art" />
+        <img src="images/art1.png" alt="K'nala's Guitar - Concept Art">
         <div class="overlay">K'nala's Guitar - Concept Art</div>
       </div>
       <div class="art-item">
-        <img src="images/art2.png" alt="Unwanted Viengun - Poster" />
-        <div class="overlay">Unwanted Viengun - Poster</div>
+        <img src="images/art2.png" alt="Invisible Cities - Melania Comic - Final Assignment">
+        <div class="overlay">Invisible Cities - Melania Comic - Final Assignment</div>
       </div>
       <div class="art-item">
-        <img src="images/art3.png" alt="Romecha & Naomi - Character Concept" />
+        <img src="images/art3.png" alt="Romecha & Naomi - Character Concept">
         <div class="overlay">Romecha & Naomi - Character Concept</div>
       </div>
     </div>
@@ -292,20 +252,11 @@
   <!-- Contact Section -->
   <section id="contact">
     <h2>Contact Me</h2>
-    <p>If you’d like to collaborate, commission work, or just say hello, drop me a note here:</p>
+    <p style="text-align:center;">If you’d like to collaborate, commission work, or just say hello, drop me a note here:</p>
     <form action="https://formspree.io/f/mvgqbonb" method="POST" class="contact-form">
-      <label>
-        Your Name:
-        <input type="text" name="name" required />
-      </label>
-      <label>
-        Your Email:
-        <input type="email" name="email" required />
-      </label>
-      <label>
-        Message:
-        <textarea name="message" rows="5" required></textarea>
-      </label>
+      <label>Your Name:<input type="text" name="name" required></label>
+      <label>Your Email:<input type="email" name="email" required></label>
+      <label>Message:<textarea name="message" rows="5" required></textarea></label>
       <button type="submit">Send Message</button>
     </form>
   </section>
@@ -321,7 +272,7 @@
     <span class="next">&#10095;</span>
     <span class="zoom-in">+</span>
     <span class="zoom-out">−</span>
-    <img class="lightbox-content" id="lightbox-img" />
+    <img class="lightbox-content" id="lightbox-img">
     <div id="caption"></div>
   </div>
 
@@ -445,27 +396,18 @@
       lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
     });
     lightboxImg.addEventListener("touchend", () => isDragging = false);
-  </script>
 
-  <script>
-    // Append local videos from films/ folder to the video-scroll container
-    const videoScroll = document.getElementById("video-scroll");
-
-    // Number of local films you want to add, update as needed
-    const numFilms = 5;
-
-    for (let i = 1; i <= numFilms; i++) {
-      const filmPath = `films/film${i}.mp4`;
-      const videoItem = document.createElement("div");
-      videoItem.className = "video-item";
-      videoItem.innerHTML = `
-        <video controls>
-          <source src="${filmPath}" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      `;
-      videoScroll.appendChild(videoItem);
-    }
+    // Keyboard support
+    document.addEventListener("keydown", e => {
+      if (lightbox.style.display === "block") {
+        if (e.key === "ArrowLeft") changePage(-1);
+        if (e.key === "ArrowRight") changePage(1);
+        if (e.key === "Escape") {
+          lightbox.style.display = "none";
+          resetZoom();
+        }
+      }
+    });
   </script>
 </body>
 </html>
