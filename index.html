@@ -4,663 +4,215 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jordan Celaya | Portfolio</title>
-  <!-- Font Awesome for icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fff;
-    }
-    header {
-      background: #111;
-      color: #fff;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    header .info {
-      flex: 1;
-      text-align: left;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-    header p {
-      margin: 5px 0;
-    }
-    header .socials a {
-      color: #fff;
-      margin-right: 10px;
-      font-size: 20px;
-      transition: color 0.3s;
-    }
-    header .socials a:hover {
-      color: #1da1f2;
-    }
-    header img {
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      margin-left: 20px;
-    }
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
+    header { background:#111; color:#fff; padding:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    header .info { flex:1; text-align:left; }
+    header h1 { margin:0; font-size:28px; }
+    header p { margin:5px 0; }
+    header .socials a { color:#fff; margin-right:10px; font-size:20px; transition:color 0.3s; }
+    header .socials a:hover { color:#1da1f2; }
+    header img { border-radius:50%; width:100px; height:100px; object-fit:cover; margin-left:20px; }
 
-    section {
-      padding: 50px 20px 40px;
-      max-width: 1200px;
-      margin: auto;
-    }
-    section h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 600;
-      font-size: 2rem;
-    }
+    section { padding:40px 20px 20px; max-width:1200px; margin:auto; }
+    section h2 { text-align:center; margin-bottom:20px; font-weight:600; font-size:2rem; }
+    #about p { font-size:1.2rem; max-width:700px; margin:0 auto 20px; text-align:center; line-height:1.5; }
 
-    /* About Me paragraph bigger and centered */
-    #about p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 40px auto;
-      text-align: center;
-      line-height: 1.5;
-    }
+    .video-scroll { display:flex; overflow-x:auto; gap:40px; padding:20px 0; scroll-snap-type:x mandatory; scrollbar-width:none; overflow-visible; position:relative; z-index:1; }
+    .video-scroll::-webkit-scrollbar { display:none; }
+    .video-item { flex:0 0 auto; scroll-snap-align:start; transition:transform .3s, box-shadow .3s; border-radius:12px; overflow:visible; position:relative; z-index:1; }
+    .video-item iframe { width:800px; height:450px; border-radius:12px; display:block; }
+    .video-item:hover { transform:scale(1.08); box-shadow:0 8px 25px rgba(0,0,0,0.6); z-index:10; }
+    @media (max-width:900px){ .video-item iframe { width:100%; height:220px; } }
 
-    footer {
-      background: #111;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-    }
+    .art-gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:30px; }
+    .art-item { position:relative; cursor:pointer; transition:transform .3s, box-shadow .3s; border-radius:12px; overflow:hidden; z-index:1; }
+    .art-item img { width:100%; max-height:400px; object-fit:cover; border-radius:12px; display:block; }
+    .art-item .overlay { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); color:#fff; padding:10px; opacity:0; transition:opacity .3s; border-radius:0 0 12px 12px; }
+    .art-item:hover .overlay { opacity:1; }
+    .art-item:hover { transform:scale(1.08); box-shadow:0 8px 25px rgba(0,0,0,0.6); z-index:10; }
 
-    /* Film (YouTube) Scroll */
-    .video-scroll {
-      display: flex;
-      overflow-x: auto;
-      gap: 40px;
-      padding: 20px 0;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      overflow-visible; /* allow scaling overflow */
-      position: relative;
-      z-index: 1;
-    }
-    .video-scroll::-webkit-scrollbar {
-      display: none;
-    }
-    .video-item {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      transition: transform 0.3s, box-shadow 0.3s;
-      border-radius: 12px;
-      overflow: visible; /* allow scale overflow */
-      position: relative;
-      z-index: 1;
-    }
-    .video-item iframe {
-      width: 800px;
-      height: 450px;
-      border-radius: 12px;
-      display: block;
-    }
-    .video-item:hover {
-      transform: scale(1.08);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      z-index: 10;
-    }
-    @media (max-width: 900px) {
-      .video-item iframe {
-        width: 100%;
-        height: 220px;
-      }
-    }
+    .contact-form { display:flex; flex-direction:column; gap:15px; max-width:600px; margin:20px auto; }
+    .contact-form label { display:flex; flex-direction:column; font-weight:bold; }
+    .contact-form input, .contact-form textarea { margin-top:5px; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:16px; }
+    .contact-form textarea { min-height:180px; resize:vertical; }
+    .contact-form button { padding:12px; background:#111; color:#fff; border:none; border-radius:8px; font-size:16px; cursor:pointer; transition:background .3s; }
+    .contact-form button:hover { background:#1da1f2; }
 
-    /* Art gallery */
-    .art-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-    .art-item {
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      border-radius: 12px;
-      overflow: visible;
-      z-index: 1;
-    }
-    .art-item img {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      display: block;
-    }
-    .art-item .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      padding: 10px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      border-radius: 0 0 12px 12px;
-    }
-    .art-item:hover .overlay {
-      opacity: 1;
-    }
-    .art-item:hover {
-      transform: scale(1.08);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      z-index: 10;
-    }
-
-    /* Hover magnify icon replaced with search-plus icon on art items */
-    .hover-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 42px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    .art-item:hover .hover-icon {
-      opacity: 1;
-    }
-
-    /* Lightbox */
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      padding-top: 60px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.9);
-      cursor: default;
-    }
-    .lightbox-content {
-      margin: auto;
-      display: block;
-      max-width: 80%;
-      max-height: 80%;
-      cursor: grab; /* default cursor for panning */
-      user-select: none;
-      transition: transform 0.25s ease-out;
-    }
-    /* Grab cursor changes to grabbing while dragging */
-    .lightbox-content.grabbing {
-      cursor: grabbing !important;
-    }
-    #caption {
-      text-align: center;
-      color: #fff;
-      margin-top: 10px;
-    }
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 35px;
-      color: #fff;
-      font-size: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 10000;
-    }
-    .close:hover {
-      color: #bbb;
-    }
-
-    /* Contact Form */
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      max-width: 600px;
-      margin: 20px auto;
-    }
-    .contact-form input,
-    .contact-form textarea {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    .contact-form textarea {
-      min-height: 180px;
-      resize: vertical;
-    }
-    .contact-form button {
-      padding: 12px;
-      background: #111;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .contact-form button:hover {
-      background: #1da1f2;
-    }
-
-    /* Lightbox Arrows */
-    .lightbox .prev,
-    .lightbox .next {
-      display: none;
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      padding: 16px;
-      color: #fff;
-      font-size: 40px;
-      user-select: none;
-      z-index: 10000;
-    }
-    .lightbox .prev {
-      left: 10px;
-    }
-    .lightbox .next {
-      right: 10px;
-    }
-
-    /* Zoom buttons */
-    .lightbox .zoom-in,
-    .lightbox .zoom-out {
-      position: absolute;
-      bottom: 100px;
-      right: 30px;
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      font-size: 28px;
-      padding: 10px 15px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 10000;
-      user-select: none;
-    }
-    .lightbox .zoom-out {
-      right: 80px;
-    }
+    /* Lightbox styles */
+    .lightbox { display:none; position:fixed; z-index:9999; padding-top:60px; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.9); }
+    .lightbox-content { margin:auto; display:block; max-width:80%; max-height:80%; cursor:grab; user-select:none; transition:transform .25s ease-out; }
+    .lightbox-content.grabbing { cursor:grabbing !important; }
+    #caption { text-align:center; color:#fff; margin-top:10px; }
+    .close { position:absolute; top:20px; right:35px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; z-index:10000; }
+    .close:hover { color:#bbb; }
+    .lightbox .prev, .lightbox .next { cursor:pointer; position:absolute; top:50%; padding:16px; color:#fff; font-size:40px; user-select:none; z-index:10000; display:none; }
+    .lightbox .prev { left:10px; }
+    .lightbox .next { right:10px; }
+    .lightbox .zoom-in, .lightbox .zoom-out { position:absolute; bottom:100px; right:30px; background:rgba(0,0,0,0.7); color:#fff; font-size:28px; padding:10px 15px; border-radius:50%; cursor:pointer; user-select:none; z-index:10000; }
+    .lightbox .zoom-out { right:80px; }
   </style>
 </head>
 <body>
   <header>
     <div class="info">
       <h1>Jordan Celaya</h1>
-      <p>
-        Contact:
-        <a href="mailto:jordancelaya.art@gmail.com" style="color:#1da1f2"
-          >jordancelaya.art@gmail.com</a
-        >
-      </p>
+      <p>Contact: <a href="mailto:jordancelaya.art@gmail.com" style="color:#1da1f2">jordancelaya.art@gmail.com</a></p>
       <div class="socials">
-        <a href="https://twitter.com/whoopikoos" target="_blank"
-          ><i class="fab fa-x-twitter"></i
-        ></a>
-        <a href="https://instagram.com/ljordancelayal" target="_blank"
-          ><i class="fab fa-instagram"></i
-        ></a>
-        <a href="https://bsky.app/profile/jtwhoopikoos.bsky.social" target="_blank"
-          ><i class="fas fa-cloud"></i
-        ></a>
-        <a href="https://tiktok.com/@bonks.jordancelaya" target="_blank"
-          ><i class="fab fa-tiktok"></i
-        ></a>
-        <a href="https://youtube.com/@Bonkoos" target="_blank"
-          ><i class="fab fa-youtube"></i
-        ></a>
+        <a href="https://twitter.com/whoopikoos" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://instagram.com/ljordancelayal" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://bsky.app/profile/jtwhoopikoos.bsky.social" target="_blank"><i class="fas fa-cloud"></i></a>
+        <a href="https://tiktok.com/@bonks.jordancelaya" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://youtube.com/@Bonkoos" target="_blank"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
-    <img src="images/me.jpg" alt="Photo of Jordan Celaya" />
+    <img src="images/me.jpg" alt="Jordan Celaya Headshot" />
   </header>
 
   <section id="about">
     <h2>About Me</h2>
     <p>
-      My name is Jordan Celaya, and I am a Cartoonist and a Filmmaker. Look
-      around and enjoy.
+      My name is Jordan Celaya, and I am a visual storyteller passionate about comics and animation. Whether I'm drawing or animating, I aim to entertain, connect, and make an impact.
     </p>
   </section>
 
-  <!-- YouTube Video Scroll -->
   <section id="videos">
     <h2>My Films</h2>
-    <div class="video-scroll" aria-label="Scroll through Jordan's films">
-      <!-- First the 3 recent -->
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/wtAR97q_B-8"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 1"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/mldbCkNu0Y0"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 2"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/5VyP8e4-QoE"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 3"
-        ></iframe>
-      </div>
-      <!-- Then the others -->
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/yd3sQFfv0i4"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 4"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/DYdv7fuMH7s"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 5"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/7CKwllQWGFY"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 6"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/tzDxUuU8SAg"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 7"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/rJ83N3_FYpw"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 8"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/_Yum6Trwtkk"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 9"
-        ></iframe>
-      </div>
-      <div class="video-item">
-        <iframe
-          src="https://www.youtube.com/embed/1oJIiPiV0z8"
-          frameborder="0"
-          allowfullscreen
-          title="Jordan Celaya Film 10"
-        ></iframe>
-      </div>
+    <div class="video-scroll">
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/wtAR97q_B-8" frameborder="0" allowfullscreen title="Film 1"></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/mldbCkNu0Y0" frameborder="0" allowfullscreen title="Film 2"></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/5VyP8e4-QoE" frameborder="0" allowfullscreen title="Film 3"></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/yd3sQFfv0i4" frameborder="0" allowfullscreen title="Film 4"></iframe></div>
+      <!-- Add more videos as needed -->
     </div>
   </section>
 
-  <!-- Art Gallery -->
   <section id="art">
     <h2>My Artwork</h2>
     <div class="art-gallery">
-      <div class="art-item comic-set" tabindex="0">
-        <img src="images/Page1-Melaia.png" alt="Comic Book – Page 1" />
-        <i class="fas fa-search-plus hover-icon" aria-hidden="true"></i>
-        <div class="overlay">3-Page Comic Book</div>
-      </div>
-      <div class="art-item" tabindex="0">
-        <img src="images/art1.png" alt="K'nala's Guitar - Concept Art" />
-        <i class="fas fa-search-plus hover-icon" aria-hidden="true"></i>
-        <div class="overlay">K'nala's Guitar - Concept Art</div>
-      </div>
-      <div class="art-item" tabindex="0">
-        <img src="images/art2.png" alt="Unwanted Veingun - Poster" />
-        <i class="fas fa-search-plus hover-icon" aria-hidden="true"></i>
-        <div class="overlay">Unwanted Veingun - Poster</div>
-      </div>
-      <div class="art-item" tabindex="0">
-        <img src="images/art3.png" alt="Romecha & Naomi - Character Concept" />
-        <i class="fas fa-search-plus hover-icon" aria-hidden="true"></i>
-        <div class="overlay">Romecha & Naomi - Character Concept</div>
-      </div>
+      <div class="art-item comic-set" tabindex="0"><img src="images/Page1-Melaia.png" alt="Comic Book – Page 1" /><div class="overlay">3‑Page Comic Book</div></div>
+      <div class="art-item" tabindex="0"><img src="images/art1.png" alt="K'nala's Guitar – Concept Art" /><div class="overlay">K'nala's Guitar – Concept Art</div></div>
+      <div class="art-item" tabindex="0"><img src="images/art2.png" alt="Unwanted Veingun – Poster" /><div class="overlay">Unwanted Veingun – Poster</div></div>
+      <div class="art-item" tabindex="0"><img src="images/art3.png" alt="Romecha & Naomi – Character Concept" /><div class="overlay">Romecha & Naomi – Character Concept</div></div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <p style="text-align:center;">
-      If you’d like to collaborate, commission work, or just say hello, drop me a
-      note here:
-    </p>
-    <form
-      action="https://formspree.io/f/mvgqbonb"
-      method="POST"
-      class="contact-form"
-    >
-      <label
-        >Your Name:
-        <input type="text" name="name" required autocomplete="name" />
-      </label>
-      <label
-        >Your Email:
-        <input type="email" name="email" required autocomplete="email" />
-      </label>
-      <label
-        >Message:
-        <textarea name="message" rows="5" required></textarea>
-      </label>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
-
-  <footer>
-    <p>© 2025 Jordan Celaya</p>
-  </footer>
-
   <!-- Lightbox Modal -->
-  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
     <span class="close" role="button" aria-label="Close">&times;</span>
-    <span class="prev" role="button" aria-label="Previous image">&#10094;</span>
-    <span class="next" role="button" aria-label="Next image">&#10095;</span>
+    <span class="prev" role="button" aria-label="Previous">&#10094;</span>
+    <span class="next" role="button" aria-label="Next">&#10095;</span>
     <span class="zoom-in" role="button" aria-label="Zoom in">+</span>
     <span class="zoom-out" role="button" aria-label="Zoom out">−</span>
-    <img
-      class="lightbox-content"
-      id="lightbox-img"
-      alt="Expanded artwork image"
-      draggable="false"
-      tabindex="0"
-    />
+    <img id="lightbox-img" class="lightbox-content" alt="" draggable="false" tabindex="0"/>
     <div id="caption"></div>
   </div>
 
   <script>
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const captionText = document.getElementById("caption");
-    const close = document.getElementsByClassName("close")[0];
-    const prev = document.querySelector(".lightbox .prev");
-    const next = document.querySelector(".lightbox .next");
-    const zoomIn = document.querySelector(".lightbox .zoom-in");
-    const zoomOut = document.querySelector(".lightbox .zoom-out");
+    const lightbox = document.getElementById("lightbox"),
+          imgEl = document.getElementById("lightbox-img"),
+          captionEl = document.getElementById("caption"),
+          prevBtn = document.querySelector(".prev"),
+          nextBtn = document.querySelector(".next"),
+          closeBtn = document.querySelector(".close"),
+          zoomIn = document.querySelector(".zoom-in"),
+          zoomOut = document.querySelector(".zoom-out");
 
-    const artworks = Array.from(document.querySelectorAll(".art-item img"));
-    const comicPages = [
-      "images/Page1-Melaia.png",
-      "images/Page2-Melaia.png",
-      "images/Page3-Melaia.png",
-    ];
+    const items = Array.from(document.querySelectorAll(".art-item img")),
+          comicPages = ["images/Page1-Melaia.png","images/Page2-Melaia.png","images/Page3-Melaia.png"];
+    let currentSet = [], currentIndex = 0, zoomLevel=1, imgX=0,imgY=0,isDragging=false,startX, startY;
 
-    let currentIndex = 0;
-    let currentSet = [];
-    let zoomLevel = 1;
-
-    // Dragging vars
-    let isDragging = false;
-    let startX, startY, imgX = 0, imgY = 0;
-
-    function openLightbox(src, alt, set = [src]) {
+    function openLB(set, idx, alt) {
       currentSet = set;
-      currentIndex = 0;
+      currentIndex = idx;
       resetZoom();
+      imgEl.src = set[idx];
+      imgEl.alt = alt;
+      captionEl.textContent = alt;
       lightbox.style.display = "block";
-      lightboxImg.src = currentSet[currentIndex];
-      lightboxImg.alt = alt;
-      captionText.innerHTML = alt;
-
-      if (currentSet.length > 1) {
-        prev.style.display = "block";
-        next.style.display = "block";
-      } else {
-        prev.style.display = "none";
-        next.style.display = "none";
-      }
+      prevBtn.style.display = set.length>1 ? "block" : "none";
+      nextBtn.style.display = set.length>1 ? "block" : "none";
     }
+
+    items.forEach(img => {
+      const parent = img.closest(".art-item");
+      img.onclick = () => openLB([img.src], 0, img.alt);
+    });
+    // special comic set
+    document.querySelector(".comic-set img").onclick = () => openLB(comicPages, 0, "Comic Book – Page 1");
+
+    closeBtn.onclick = () => lightbox.style.display = "none";
+
+    function changePage(delta) {
+      currentIndex = (currentIndex + delta + currentSet.length) % currentSet.length;
+      imgEl.src = currentSet[currentIndex];
+      captionEl.textContent = currentSet.length > 1 ? `Page ${currentIndex+1} / ${currentSet.length}` : captionEl.textContent;
+      resetZoom();
+    }
+    prevBtn.onclick = () => changePage(-1);
+    nextBtn.onclick = () => changePage(1);
+
+    zoomIn.onclick = () => { zoomLevel = Math.min(3, zoomLevel+0.2); updateTransform(); };
+    zoomOut.onclick = () => { zoomLevel = Math.max(1, zoomLevel-0.2); if(zoomLevel ===1){ imgX=0; imgY=0;} updateTransform(); };
 
     function resetZoom() {
-      zoomLevel = 1;
-      imgX = 0;
-      imgY = 0;
-      lightboxImg.style.transform = "translate(0px, 0px) scale(1)";
-      lightboxImg.classList.remove("grabbing");
-      lightbox.style.cursor = "default";
+      zoomLevel=1; imgX=0; imgY=0;
+      imgEl.style.transform = "translate(0px,0px) scale(1)";
     }
-
-    // Artwork clicks
-    artworks.forEach((img) => {
-      if (!img.closest(".comic-set")) {
-        img.onclick = function () {
-          openLightbox(this.src, this.alt);
-        };
-      }
-    });
-
-    // Comic set
-    document.querySelector(".comic-set img").onclick = function () {
-      openLightbox(comicPages[0], "Comic Book – Page 1", comicPages);
-    };
-
-    // Controls
-    close.onclick = () => {
-      lightbox.style.display = "none";
-      resetZoom();
-    };
-    function changePage(step) {
-      currentIndex = (currentIndex + step + currentSet.length) % currentSet.length;
-      lightboxImg.src = currentSet[currentIndex];
-      captionText.innerHTML = `Page ${currentIndex + 1} / ${currentSet.length}`;
-      resetZoom();
-    }
-    prev.onclick = () => changePage(-1);
-    next.onclick = () => changePage(1);
-
-    zoomIn.onclick = () => {
-      zoomLevel += 0.2;
-      if (zoomLevel > 3) zoomLevel = 3;
-      updateTransform();
-    };
-    zoomOut.onclick = () => {
-      zoomLevel = Math.max(1, zoomLevel - 0.2);
-      if (zoomLevel === 1) {
-        imgX = 0;
-        imgY = 0;
-      }
-      updateTransform();
-    };
-
     function updateTransform() {
-      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
-      // Change cursor to grab only if zoomed in
-      if (zoomLevel > 1) {
-        lightboxImg.style.cursor = "grab";
-      } else {
-        lightboxImg.style.cursor = "default";
-        imgX = 0;
-        imgY = 0;
-      }
+      imgEl.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
     }
 
-    // Dragging events for panning when zoomed in
-    lightboxImg.addEventListener("mousedown", (e) => {
-      if (zoomLevel <= 1) return;
+    imgEl.addEventListener("mousedown", e => {
+      if (zoomLevel <=1) return;
       isDragging = true;
-      startX = e.clientX - imgX;
-      startY = e.clientY - imgY;
-      lightboxImg.classList.add("grabbing");
-      e.preventDefault();
+      startX = e.clientX - imgX; startY = e.clientY - imgY;
+      imgEl.classList.add("grabbing"); e.preventDefault();
     });
-    window.addEventListener("mousemove", (e) => {
+    window.addEventListener("mousemove", e => {
       if (!isDragging) return;
-      imgX = e.clientX - startX;
-      imgY = e.clientY - startY;
-      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+      imgX = e.clientX - startX; imgY = e.clientY - startY;
+      updateTransform();
     });
-    window.addEventListener("mouseup", () => {
-      if (isDragging) {
-        isDragging = false;
-        lightboxImg.classList.remove("grabbing");
-      }
-    });
+    window.addEventListener("mouseup", ()=>{ isDragging=false; imgEl.classList.remove("grabbing"); });
 
-    // Touch support for dragging
-    lightboxImg.addEventListener("touchstart", (e) => {
-      if (zoomLevel <= 1) return;
+    imgEl.addEventListener("touchstart", e => {
+      if (zoomLevel <=1) return;
       isDragging = true;
-      const touch = e.touches[0];
-      startX = touch.clientX - imgX;
-      startY = touch.clientY - imgY;
+      const t = e.touches[0];
+      startX = t.clientX - imgX; startY = t.clientY - imgY;
     });
-    lightboxImg.addEventListener("touchmove", (e) => {
+    imgEl.addEventListener("touchmove", e => {
       if (!isDragging) return;
-      const touch = e.touches[0];
-      imgX = touch.clientX - startX;
-      imgY = touch.clientY - startY;
-      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+      const t = e.touches[0];
+      imgX = t.clientX - startX; imgY = t.clientY - startY;
+      updateTransform();
     });
-    lightboxImg.addEventListener("touchend", () => {
-      isDragging = false;
-    });
+    imgEl.addEventListener("touchend", () => isDragging = false);
 
-    // Keyboard navigation
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", e => {
       if (lightbox.style.display === "block") {
         if (e.key === "ArrowLeft") changePage(-1);
         if (e.key === "ArrowRight") changePage(1);
-        if (e.key === "Escape") {
-          lightbox.style.display = "none";
-          resetZoom();
-        }
+        if (e.key === "Escape") lightbox.style.display = "none";
       }
     });
   </script>
+  
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p style="text-align:center; max-width:600px; margin:0 auto 20px; font-size:1.1rem; line-height:1.6;">
+      If you’d like to collaborate, commission work, or just say hello, drop me a note here:
+    </p>
+    <form class="contact-form" action="https://formspree.io/f/mvgqbonb" method="POST">
+      <label>Your Name:<input type="text" name="name" required autocomplete="name" /></label>
+      <label>Your Email:<input type="email" name="email" required autocomplete="email" /></label>
+      <label>Message:<textarea name="message" required></textarea></label>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer><p>&copy; 2025 Jordan Celaya</p></footer>
 </body>
 </html>
