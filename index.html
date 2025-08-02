@@ -47,12 +47,13 @@
     #lightbox {
       display: none;
       position: fixed;
-      z-index: 1000;
+      z-index: 10000;
       inset: 0;
       background-color: rgba(0,0,0,0.95);
       overflow: hidden;
       text-align: center;
       box-sizing: border-box;
+      user-select: none;
     }
 
     #lightbox img {
@@ -60,10 +61,16 @@
       z-index: 5;
       max-width: 90%;
       max-height: 80%;
-      margin-top: 5%;
+      margin-top: 5vh;
       border-radius: 10px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.8);
       transition: transform 0.3s ease;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    #lightbox img:active {
+      cursor: grabbing;
     }
 
     #caption-bar {
@@ -74,9 +81,15 @@
       background: rgba(0,0,0,0.85);
       color: #ddd;
       font-size: 1.1rem;
-      padding: 10px;
+      padding: 10px 15px;
       text-align: center;
       z-index: 6;
+      user-select: text;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+      font-family: Arial, sans-serif;
     }
 
     #lightbox .close,
@@ -88,24 +101,25 @@
       z-index: 10;
       background: rgba(0,0,0,0.6);
       color: white;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       cursor: pointer;
       user-select: none;
       border-radius: 50%;
       width: 45px;
       height: 45px;
-      line-height: 45px;
-      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background 0.3s;
+      box-shadow: 0 0 6px rgba(0,0,0,0.5);
     }
 
     #lightbox .close { top: 20px; right: 20px; }
     #lightbox .prev { top: 50%; left: 20px; transform: translateY(-50%); }
     #lightbox .next { top: 50%; right: 20px; transform: translateY(-50%); }
-    #lightbox .zoom-in { bottom: 70px; right: 20px; }
+
+    /* Zoom buttons stacked bottom right */
+    #lightbox .zoom-in { bottom: 80px; right: 20px; }
     #lightbox .zoom-out { bottom: 20px; right: 20px; }
 
     #lightbox .close:hover,
@@ -117,7 +131,7 @@
     }
 
     @media (max-width: 768px) {
-      #lightbox img { max-width: 95%; max-height: 70%; margin-top: 20%; }
+      #lightbox img { max-width: 95%; max-height: 70%; margin-top: 15vh; }
       #lightbox .close,
       #lightbox .prev,
       #lightbox .next,
@@ -125,8 +139,7 @@
       #lightbox .zoom-out {
         width: 40px;
         height: 40px;
-        font-size: 1.2rem;
-        line-height: 40px;
+        font-size: 1.3rem;
       }
     }
   </style>
@@ -174,13 +187,13 @@
   </section>
 
   <!-- Lightbox Modal -->
-  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <span class="close"><i class="fas fa-times"></i></span>
-    <span class="prev"><i class="fas fa-chevron-left"></i></span>
-    <span class="next"><i class="fas fa-chevron-right"></i></span>
-    <span class="zoom-in"><i class="fas fa-search-plus"></i></span>
-    <span class="zoom-out"><i class="fas fa-search-minus"></i></span>
-    <img id="lightbox-img" alt="" draggable="false"/>
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" tabindex="0">
+    <span class="close" role="button" aria-label="Close" tabindex="0"><i class="fas fa-times"></i></span>
+    <span class="prev" role="button" aria-label="Previous" tabindex="0"><i class="fas fa-chevron-left"></i></span>
+    <span class="next" role="button" aria-label="Next" tabindex="0"><i class="fas fa-chevron-right"></i></span>
+    <span class="zoom-in" role="button" aria-label="Zoom in" tabindex="0"><i class="fas fa-search-plus"></i></span>
+    <span class="zoom-out" role="button" aria-label="Zoom out" tabindex="0"><i class="fas fa-search-minus"></i></span>
+    <img id="lightbox-img" alt="" draggable="false" />
     <div id="caption-bar"><span id="caption"></span></div>
   </div>
 
@@ -188,14 +201,15 @@
     const lightbox = document.getElementById('lightbox'),
           imgEl = document.getElementById('lightbox-img'),
           captionEl = document.getElementById('caption'),
-          prevBtn = document.querySelector('.prev'),
-          nextBtn = document.querySelector('.next'),
-          closeBtn = document.querySelector('.close'),
-          zoomIn = document.querySelector('.zoom-in'),
-          zoomOut = document.querySelector('.zoom-out'),
+          prevBtn = lightbox.querySelector('.prev'),
+          nextBtn = lightbox.querySelector('.next'),
+          closeBtn = lightbox.querySelector('.close'),
+          zoomIn = lightbox.querySelector('.zoom-in'),
+          zoomOut = lightbox.querySelector('.zoom-out'),
           comicPages = ['images/Page1-Melaia.png','images/Page2-Melaia.png','images/Page3-Melaia.png'];
 
-    let currentSet = [], currentIndex = 0, zoomLevel = 1, imgX = 0, imgY = 0, isDragging = false, startX = 0, startY = 0;
+    let currentSet = [], currentIndex = 0, zoomLevel = 1, imgX = 0, imgY = 0;
+    let isDragging = false, startX = 0, startY = 0;
     let touchStartX = 0, touchEndX = 0;
 
     function openLB(set, idx, alt) {
@@ -204,92 +218,138 @@
       resetZoom();
       imgEl.src = set[idx];
       imgEl.alt = alt;
-      captionEl.textContent = alt;
+      captionEl.textContent = set.length > 1 ? `Page ${currentIndex + 1} / ${set.length}` : alt;
       lightbox.style.display = 'block';
+      lightbox.focus();
       prevBtn.style.display = set.length > 1 ? 'flex' : 'none';
       nextBtn.style.display = set.length > 1 ? 'flex' : 'none';
     }
 
+    // Attach click to open lightbox on images
     document.querySelectorAll('.art-item').forEach((item) => {
       const img = item.querySelector('img');
       const alt = img.alt;
       if (item.classList.contains('comic-set')) {
         item.addEventListener('click', () => openLB(comicPages, 0, alt));
+        item.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { openLB(comicPages, 0, alt); e.preventDefault(); }});
       } else {
         item.addEventListener('click', () => openLB([img.src], 0, alt));
+        item.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') { openLB([img.src], 0, alt); e.preventDefault(); }});
       }
     });
 
-    closeBtn.onclick = () => lightbox.style.display = 'none';
+    closeBtn.onclick = () => { lightbox.style.display = 'none'; resetZoom(); };
+    closeBtn.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { lightbox.style.display = 'none'; resetZoom(); e.preventDefault(); } };
 
     function changePage(delta) {
       currentIndex = (currentIndex + delta + currentSet.length) % currentSet.length;
       imgEl.src = currentSet[currentIndex];
-      captionEl.textContent = currentSet.length > 1 ? `Page ${currentIndex + 1} / ${currentSet.length}` : captionEl.textContent;
+      captionEl.textContent = currentSet.length > 1 ? `Page ${currentIndex + 1} / ${currentSet.length}` : imgEl.alt;
       resetZoom();
     }
     prevBtn.onclick = () => changePage(-1);
+    prevBtn.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { changePage(-1); e.preventDefault(); } };
     nextBtn.onclick = () => changePage(1);
+    nextBtn.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { changePage(1); e.preventDefault(); } };
 
-    zoomIn.onclick = () => { zoomLevel = Math.min(3, zoomLevel + 0.2); updateTransform(); };
-    zoomOut.onclick = () => { zoomLevel = Math.max(1, zoomLevel - 0.2); if (zoomLevel === 1) { imgX = imgY = 0; } updateTransform(); };
+    zoomIn.onclick = () => { zoomLevel = Math.min(3, zoomLevel + 0.25); updateTransform(); };
+    zoomOut.onclick = () => { zoomLevel = Math.max(1, zoomLevel - 0.25); if (zoomLevel === 1) { imgX = 0; imgY = 0; } updateTransform(); };
+    zoomIn.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { zoomLevel = Math.min(3, zoomLevel + 0.25); updateTransform(); e.preventDefault(); } };
+    zoomOut.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { zoomLevel = Math.max(1, zoomLevel - 0.25); if (zoomLevel === 1) { imgX = 0; imgY = 0; } updateTransform(); e.preventDefault(); } };
 
-    function resetZoom() { zoomLevel = 1; imgX = imgY = 0; imgEl.style.transform = 'translate(0px, 0px) scale(1)'; }
-    function updateTransform() { imgEl.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`; }
+    function resetZoom() {
+      zoomLevel = 1; 
+      imgX = 0; 
+      imgY = 0; 
+      imgEl.style.transform = 'translate(0,0) scale(1)';
+    }
 
-    // Dragging for zoomed images
+    function updateTransform() {
+      imgEl.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+    }
+
+    // Dragging for zoomed image with mouse
     imgEl.addEventListener('mousedown', e => {
       if (zoomLevel <= 1) return;
       isDragging = true;
-      startX = e.clientX - imgX; startY = e.clientY - imgY;
+      startX = e.clientX - imgX;
+      startY = e.clientY - imgY;
+      imgEl.style.cursor = 'grabbing';
       e.preventDefault();
     });
 
     window.addEventListener('mousemove', e => {
       if (!isDragging) return;
-      imgX = e.clientX - startX; imgY = e.clientY - startY;
+      imgX = e.clientX - startX;
+      imgY = e.clientY - startY;
       updateTransform();
     });
 
-    window.addEventListener('mouseup', () => { isDragging = false; });
+    window.addEventListener('mouseup', e => {
+      if (isDragging) {
+        isDragging = false;
+        imgEl.style.cursor = 'grab';
+      }
+    });
 
-    // Touch dragging + swipe
+    // Touch dragging for zoomed image
     imgEl.addEventListener('touchstart', e => {
-      if (zoomLevel <= 1) {
-        touchStartX = e.touches[0].clientX;
-      } else {
+      if (zoomLevel <= 1) return;
+      if (e.touches.length === 1) {
         isDragging = true;
         const t = e.touches[0];
-        startX = t.clientX - imgX; startY = t.clientY - imgY;
+        startX = t.clientX - imgX;
+        startY = t.clientY - imgY;
       }
     });
 
     imgEl.addEventListener('touchmove', e => {
       if (!isDragging) return;
-      const t = e.touches[0];
-      imgX = t.clientX - startX; imgY = t.clientY - startY;
-      updateTransform();
+      if (e.touches.length === 1) {
+        const t = e.touches[0];
+        imgX = t.clientX - startX;
+        imgY = t.clientY - startY;
+        updateTransform();
+      }
     });
 
     imgEl.addEventListener('touchend', e => {
-      if (zoomLevel <= 1) {
-        touchEndX = e.changedTouches[0].clientX;
-        if (touchEndX - touchStartX > 50) changePage(-1); // swipe right
-        if (touchStartX - touchEndX > 50) changePage(1);  // swipe left
-      }
       isDragging = false;
     });
 
+    // Keyboard navigation
     document.addEventListener('keydown', e => {
       if (lightbox.style.display === 'block') {
         if (e.key === 'ArrowLeft') changePage(-1);
-        if (e.key === 'ArrowRight') changePage(1);
-        if (e.key === 'Escape') lightbox.style.display = 'none';
+        else if (e.key === 'ArrowRight') changePage(1);
+        else if (e.key === 'Escape') {
+          lightbox.style.display = 'none';
+          resetZoom();
+        }
       }
     });
 
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) lightbox.style.display = 'none';
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+        resetZoom();
+      }
+    });
+
+    // Swipe gestures for prev/next on mobile
+    lightbox.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+      }
+    });
+
+    lightbox.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].clientX;
+      const dist = touchEndX - touchStartX;
+      const minSwipeDist = 50; // minimum px distance for swipe
+      if (dist > minSwipeDist) changePage(-1);
+      else if (dist < -minSwipeDist) changePage(1);
     });
   </script>
 
