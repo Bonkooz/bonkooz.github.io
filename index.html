@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Jordan Celaya | Portfolio</title>
   <!-- Font Awesome for social media icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body { font-family: Arial, sans-serif; margin:0; padding:0; }
     header {
@@ -26,7 +26,7 @@
     }
 
     section { padding:50px; max-width:1100px; margin:auto; }
-    h1, h2 { margin-bottom:15px; }
+    h1, h2 { margin-bottom:15px; text-align: center; }
     .projects { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
     .card { background:#f4f4f4; padding:20px; border-radius:10px; }
 
@@ -49,7 +49,7 @@
       border-radius: 10px;
       overflow: hidden;
     }
-    .video-item iframe {
+    .video-item iframe, .video-item video {
       width: 600px;
       height: 340px;
       border-radius: 10px;
@@ -102,86 +102,114 @@
     }
     .lightbox-content {
       margin: auto; display: block; max-width: 80%; max-height: 80%;
+      cursor: grab;
     }
     #caption { text-align: center; color: #fff; margin-top: 10px; }
     .close {
       position: absolute; top: 20px; right: 35px; color: #fff;
       font-size: 40px; font-weight: bold; cursor: pointer;
+      z-index: 1001;
     }
     .close:hover { color: #bbb; }
 
     /* Contact Form */
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 600px;
-  margin: 20px auto;
-}
-.contact-form label {
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-}
-.contact-form input, 
-.contact-form textarea {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  margin-top: 5px;
-}
-.contact-form button {
-  padding: 12px;
-  background: #111;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.contact-form button:hover {
-  background: #1da1f2;
-}
-    
-  /* Lightbox Arrows */
-.lightbox .prev, .lightbox .next {
-  display: none; /* hidden unless comic book is open */
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  padding: 16px;
-  margin-top: -22px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 40px;
-  user-select: none;
-  transition: 0.3s;
-}
-.lightbox .prev { left: 10px; }
-.lightbox .next { right: 10px; }
-.lightbox .prev:hover, .lightbox .next:hover { color: #bbb; }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    .contact-form label {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+    }
+    .contact-form input, 
+    .contact-form textarea {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+    .contact-form button {
+      padding: 12px;
+      background: #111;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .contact-form button:hover {
+      background: #1da1f2;
+    }
+        
+    /* Lightbox Arrows */
+    .lightbox .prev, .lightbox .next {
+      display: none; /* hidden unless comic book is open */
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      padding: 16px;
+      margin-top: -22px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 40px;
+      user-select: none;
+      transition: 0.3s;
+      z-index: 1001;
+    }
+    .lightbox .prev { left: 10px; }
+    .lightbox .next { right: 10px; }
+    .lightbox .prev:hover, .lightbox .next:hover { color: #bbb; }
 
     /* Zoom buttons */
-.lightbox .zoom-in, .lightbox .zoom-out {
-  position: absolute;
-  bottom: 100px; /* ⬆ lift buttons above system UI bars */
-  right: 30px;
-  background: rgba(0,0,0,0.7);
-  color: #fff;
-  font-size: 28px;
-  padding: 10px 15px;
-  margin-left: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s;
-  z-index: 1000; /* make sure they’re always on top */
-}
-.lightbox .zoom-out {
-  right: 80px;
-}
-    
+    .lightbox .zoom-in, .lightbox .zoom-out {
+      position: absolute;
+      bottom: 100px; /* lift above system UI bars */
+      right: 30px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      font-size: 28px;
+      padding: 10px 15px;
+      margin-left: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 1001;
+    }
+    .lightbox .zoom-out {
+      right: 80px;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      header .info { margin-bottom: 15px; }
+      header img { margin-left: 0; margin-bottom: 15px; }
+      .video-item iframe, .video-item video {
+        width: 90vw;
+        height: 50vw;
+      }
+      .video-scroll {
+        padding: 10px 0;
+        gap: 15px;
+      }
+      .art-gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+      .contact-form {
+        width: 90vw;
+        max-width: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -197,18 +225,19 @@
         <a href="https://youtube.com/@Bonkoos" target="_blank"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
-    <img src="images/me.jpg" alt="Photo of Jordan Celaya">
+    <img src="images/me.jpg" alt="Photo of Jordan Celaya" />
   </header>
 
   <section id="about">
     <h2>About Me</h2>
-    <p>My name is Jordan Celaya, and I am a Cartoonist and a Filmaker. Look around and enjoy.</p>
+    <p style="max-width:600px; margin: 0 auto;">My name is Jordan Celaya, and I am a Cartoonist and a Filmmaker. Look around and enjoy.</p>
   </section>
 
-  <!-- YouTube Video Scroll -->
+  <!-- YouTube & Local Video Scroll -->
   <section id="videos">
     <h2>My Films</h2>
-    <div class="video-scroll">
+    <div class="video-scroll" id="video-scroll">
+      <!-- YouTube videos -->
       <div class="video-item">
         <iframe src="https://www.youtube.com/embed/wtAR97q_B-8" frameborder="0" allowfullscreen></iframe>
       </div>
@@ -218,6 +247,22 @@
       <div class="video-item">
         <iframe src="https://www.youtube.com/embed/5VyP8e4-QoE" frameborder="0" allowfullscreen></iframe>
       </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/KoxGl3oElv8" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/ED7rcaKqphs" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/YFQ2bB7WifQ" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/dNZUe70Oc2M" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/sA4pZ5x6OWA" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <!-- Local videos from films/ folder appended by script -->
     </div>
   </section>
 
@@ -226,36 +271,36 @@
     <h2>My Artwork</h2>
     <div class="art-gallery">
       <div class="art-item comic-set">
-        <img src="images/Page1-Melaia.png" alt="Comic Book – Page 1">
+        <img src="images/Page1-Melaia.png" alt="Comic Book – Page 1" />
         <div class="overlay">3-Page Comic Book</div>
       </div>
       <div class="art-item">
-        <img src="images/art1.png" alt="K'nala's Guitar - Concept Art">
+        <img src="images/art1.png" alt="K'nala's Guitar - Concept Art" />
         <div class="overlay">K'nala's Guitar - Concept Art</div>
       </div>
       <div class="art-item">
-        <img src="images/art2.png" alt="Invisible Cities - Melania Comic - Final Assignment">
-        <div class="overlay">Invisible Cities - Melania Comic - Final Assignment</div>
+        <img src="images/art2.png" alt="Unwanted Viengun - Poster" />
+        <div class="overlay">Unwanted Viengun - Poster</div>
       </div>
       <div class="art-item">
-        <img src="images/art3.png" alt="Romecha & Naomi - Character Concept">
+        <img src="images/art3.png" alt="Romecha & Naomi - Character Concept" />
         <div class="overlay">Romecha & Naomi - Character Concept</div>
       </div>
     </div>
   </section>
 
-    <!-- Contact Section -->
+  <!-- Contact Section -->
   <section id="contact">
     <h2>Contact Me</h2>
     <p>If you’d like to collaborate, commission work, or just say hello, drop me a note here:</p>
     <form action="https://formspree.io/f/mvgqbonb" method="POST" class="contact-form">
       <label>
         Your Name:
-        <input type="text" name="name" required>
+        <input type="text" name="name" required />
       </label>
       <label>
         Your Email:
-        <input type="email" name="email" required>
+        <input type="email" name="email" required />
       </label>
       <label>
         Message:
@@ -269,138 +314,158 @@
     <p>© 2025 Jordan Celaya</p>
   </footer>
 
-<!-- Lightbox Modal -->
-<div id="lightbox" class="lightbox">
-  <span class="close">&times;</span>
-  <span class="prev">&#10094;</span>
-  <span class="next">&#10095;</span>
-  <span class="zoom-in">+</span>
-  <span class="zoom-out">−</span>
-  <img class="lightbox-content" id="lightbox-img">
-  <div id="caption"></div>
-</div>
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="lightbox">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <span class="next">&#10095;</span>
+    <span class="zoom-in">+</span>
+    <span class="zoom-out">−</span>
+    <img class="lightbox-content" id="lightbox-img" />
+    <div id="caption"></div>
+  </div>
 
- <script>
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-  const captionText = document.getElementById("caption");
-  const close = document.getElementsByClassName("close")[0];
-  const prev = document.querySelector(".lightbox .prev");
-  const next = document.querySelector(".lightbox .next");
-  const zoomIn = document.querySelector(".lightbox .zoom-in");
-  const zoomOut = document.querySelector(".lightbox .zoom-out");
+  <script>
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const captionText = document.getElementById("caption");
+    const close = document.getElementsByClassName("close")[0];
+    const prev = document.querySelector(".lightbox .prev");
+    const next = document.querySelector(".lightbox .next");
+    const zoomIn = document.querySelector(".lightbox .zoom-in");
+    const zoomOut = document.querySelector(".lightbox .zoom-out");
 
-  const artworks = Array.from(document.querySelectorAll(".art-item img"));
-  const comicPages = ["images/Page1-Melaia.png", "images/Page2-Melaia.png", "images/Page3-Melaia.png"];
+    const artworks = Array.from(document.querySelectorAll(".art-item img"));
+    const comicPages = ["images/Page1-Melaia.png", "images/Page2-Melaia.png", "images/Page3-Melaia.png"];
 
-  let currentIndex = 0;
-  let currentSet = [];
-  let zoomLevel = 1;
+    let currentIndex = 0;
+    let currentSet = [];
+    let zoomLevel = 1;
 
-  // Dragging vars
-  let isDragging = false;
-  let startX, startY, imgX = 0, imgY = 0;
+    // Dragging vars
+    let isDragging = false;
+    let startX, startY, imgX = 0, imgY = 0;
 
-  function openLightbox(src, alt, set = [src]) {
-    currentSet = set;
-    currentIndex = 0;
-    resetZoom();
-    lightbox.style.display = "block";
-    lightboxImg.src = currentSet[currentIndex];
-    captionText.innerHTML = alt;
+    function openLightbox(src, alt, set = [src]) {
+      currentSet = set;
+      currentIndex = 0;
+      resetZoom();
+      lightbox.style.display = "block";
+      lightboxImg.src = currentSet[currentIndex];
+      captionText.innerHTML = alt;
 
-    // Show arrows only for comics
-    if (currentSet.length > 1) {
-      prev.style.display = "block";
-      next.style.display = "block";
-    } else {
-      prev.style.display = "none";
-      next.style.display = "none";
+      // Show arrows only for comics
+      if (currentSet.length > 1) {
+        prev.style.display = "block";
+        next.style.display = "block";
+      } else {
+        prev.style.display = "none";
+        next.style.display = "none";
+      }
     }
-  }
 
-  // Reset zoom & pan
-  function resetZoom() {
-    zoomLevel = 1;
-    imgX = 0;
-    imgY = 0;
-    lightboxImg.style.transform = "translate(0px,0px) scale(1)";
-  }
-
-  // Artworks
-  artworks.forEach(img => {
-    if (!img.closest(".comic-set")) {
-      img.onclick = function () {
-        openLightbox(this.src, this.alt);
-      };
+    // Reset zoom & pan
+    function resetZoom() {
+      zoomLevel = 1;
+      imgX = 0;
+      imgY = 0;
+      lightboxImg.style.transform = "translate(0px,0px) scale(1)";
     }
-  });
 
-  // Comic set
-  document.querySelector(".comic-set img").onclick = function () {
-    openLightbox(comicPages[0], "Comic Book – Page 1", comicPages);
-  };
+    // Artworks
+    artworks.forEach(img => {
+      if (!img.closest(".comic-set")) {
+        img.onclick = function () {
+          openLightbox(this.src, this.alt);
+        };
+      }
+    });
 
-  // Close button
-  close.onclick = () => {
-    lightbox.style.display = "none";
-    resetZoom();
-  };
+    // Comic set
+    document.querySelector(".comic-set img").onclick = function () {
+      openLightbox(comicPages[0], "Comic Book – Page 1", comicPages);
+    };
 
-  // Prev / Next
-  function changePage(step) {
-    currentIndex = (currentIndex + step + currentSet.length) % currentSet.length;
-    lightboxImg.src = currentSet[currentIndex];
-    captionText.innerHTML = `Page ${currentIndex + 1} / ${currentSet.length}`;
-    resetZoom();
-  }
-  prev.onclick = () => changePage(-1);
-  next.onclick = () => changePage(1);
+    // Close button
+    close.onclick = () => {
+      lightbox.style.display = "none";
+      resetZoom();
+    };
 
-  // Zoom
-  zoomIn.onclick = () => {
-    zoomLevel += 0.2;
-    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
-  };
-  zoomOut.onclick = () => {
-    zoomLevel = Math.max(1, zoomLevel - 0.2);
-    if (zoomLevel === 1) { imgX = 0; imgY = 0; }
-    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
-  };
+    // Prev / Next
+    function changePage(step) {
+      currentIndex = (currentIndex + step + currentSet.length) % currentSet.length;
+      lightboxImg.src = currentSet[currentIndex];
+      captionText.innerHTML = `Page ${currentIndex + 1} / ${currentSet.length}`;
+      resetZoom();
+    }
+    prev.onclick = () => changePage(-1);
+    next.onclick = () => changePage(1);
 
-  // Drag-to-pan (mouse)
-  lightboxImg.addEventListener("mousedown", e => {
-    if (zoomLevel <= 1) return;
-    isDragging = true;
-    startX = e.clientX - imgX;
-    startY = e.clientY - imgY;
-    e.preventDefault();
-  });
-  window.addEventListener("mousemove", e => {
-    if (!isDragging) return;
-    imgX = e.clientX - startX;
-    imgY = e.clientY - startY;
-    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
-  });
-  window.addEventListener("mouseup", () => isDragging = false);
+    // Zoom
+    zoomIn.onclick = () => {
+      zoomLevel += 0.2;
+      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+    };
+    zoomOut.onclick = () => {
+      zoomLevel = Math.max(1, zoomLevel - 0.2);
+      if (zoomLevel === 1) { imgX = 0; imgY = 0; }
+      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+    };
 
-  // Drag-to-pan (touch for iOS/Android)
-  lightboxImg.addEventListener("touchstart", e => {
-    if (zoomLevel <= 1) return;
-    isDragging = true;
-    const touch = e.touches[0];
-    startX = touch.clientX - imgX;
-    startY = touch.clientY - imgY;
-  });
-  lightboxImg.addEventListener("touchmove", e => {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    imgX = touch.clientX - startX;
-    imgY = touch.clientY - startY;
-    lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
-  });
-  lightboxImg.addEventListener("touchend", () => isDragging = false);
-</script>
+    // Drag-to-pan (mouse)
+    lightboxImg.addEventListener("mousedown", e => {
+      if (zoomLevel <= 1) return;
+      isDragging = true;
+      startX = e.clientX - imgX;
+      startY = e.clientY - imgY;
+      e.preventDefault();
+    });
+    window.addEventListener("mousemove", e => {
+      if (!isDragging) return;
+      imgX = e.clientX - startX;
+      imgY = e.clientY - startY;
+      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+    });
+    window.addEventListener("mouseup", () => isDragging = false);
 
+    // Drag-to-pan (touch for iOS/Android)
+    lightboxImg.addEventListener("touchstart", e => {
+      if (zoomLevel <= 1) return;
+      isDragging = true;
+      const touch = e.touches[0];
+      startX = touch.clientX - imgX;
+      startY = touch.clientY - imgY;
+    });
+    lightboxImg.addEventListener("touchmove", e => {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      imgX = touch.clientX - startX;
+      imgY = touch.clientY - startY;
+      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
+    });
+    lightboxImg.addEventListener("touchend", () => isDragging = false);
+  </script>
+
+  <script>
+    // Append local videos from films/ folder to the video-scroll container
+    const videoScroll = document.getElementById("video-scroll");
+
+    // Number of local films you want to add, update as needed
+    const numFilms = 5;
+
+    for (let i = 1; i <= numFilms; i++) {
+      const filmPath = `films/film${i}.mp4`;
+      const videoItem = document.createElement("div");
+      videoItem.className = "video-item";
+      videoItem.innerHTML = `
+        <video controls>
+          <source src="${filmPath}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      `;
+      videoScroll.appendChild(videoItem);
+    }
+  </script>
 </body>
 </html>
