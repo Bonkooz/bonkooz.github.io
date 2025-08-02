@@ -45,6 +45,53 @@
     
     body, html { touch-action: manipulation; }
     .lightbox { touch-action: none; }
+
+    #lightbox .close,
+#lightbox .prev,
+#lightbox .next,
+#lightbox .zoom-in,
+#lightbox .zoom-out {
+  position: absolute;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+#lightbox .close { top: 20px; right: 20px; }
+#lightbox .prev { top: 50%; left: 20px; transform: translateY(-50%); }
+#lightbox .next { top: 50%; right: 20px; transform: translateY(-50%); }
+#lightbox .zoom-in { bottom: 20px; left: 50%; transform: translateX(-60px); }
+#lightbox .zoom-out { bottom: 20px; left: 50%; transform: translateX(60px); }
+
+#lightbox .close:hover,
+#lightbox .prev:hover,
+#lightbox .next:hover,
+#lightbox .zoom-in:hover,
+#lightbox .zoom-out:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #lightbox .close,
+  #lightbox .prev,
+  #lightbox .next,
+  #lightbox .zoom-in,
+  #lightbox .zoom-out {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
   </style>
 </head>
 
@@ -92,13 +139,11 @@
 
   <!-- Lightbox Modal -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <span class="close" role="button" aria-label="Close">&times;</span>
-    <span class="prev" role="button" aria-label="Previous">&#10094;</span>
-    <span class="next" role="button" aria-label="Next">&#10095;</span>
-    <span class="zoom-in" role="button" aria-label="Zoom in">+</span>
-    <span class="zoom-out" role="button" aria-label="Zoom out">−</span>
-    <img id="lightbox-img" class="lightbox-content" alt="" draggable="false" tabindex="0" />
-    <div id="caption"></div>
+   <span class="close" role="button" aria-label="Close"><i class="fas fa-times"></i></span>
+   <span class="prev" role="button" aria-label="Previous"><i class="fas fa-chevron-left"></i></span>
+   <span class="next" role="button" aria-label="Next"><i class="fas fa-chevron-right"></i></span>
+   <span class="zoom-in" role="button" aria-label="Zoom in"><i class="fas fa-search-plus"></i></span>
+   <span class="zoom-out" role="button" aria-label="Zoom out"><i class="fas fa-search-minus"></i></span>
   </div>
 
   <script>
