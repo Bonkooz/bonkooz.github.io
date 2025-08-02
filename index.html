@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jordan Celaya | Portfolio</title>
-  <!-- Font Awesome for social media icons -->
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body { font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; }
@@ -26,11 +26,10 @@
     }
 
     section { padding:50px; max-width:1200px; margin:auto; }
-    section h2 { text-align:center; } /* Center section headings */
-    h1, h2 { margin-bottom:15px; }
+    section h2 { text-align:center; }
     footer { background:#111; color:#fff; text-align:center; padding:20px; }
 
-    /* Video scroll */
+    /* Film (YouTube) Scroll */
     .video-scroll {
       display: flex;
       overflow-x: auto;
@@ -45,45 +44,40 @@
       scroll-snap-align: start;
       transition: transform 0.3s, box-shadow 0.3s;
       border-radius: 12px;
-      overflow: visible; /* prevent hover cutoff */
+      overflow: visible;
+      position: relative;
     }
     .video-item iframe {
-      width: 800px;  /* bigger for desktop */
-      height: 450px; /* 16:9 ratio */
+      width: 800px;
+      height: 450px;
       border-radius: 12px;
       display: block;
     }
     .video-item:hover {
       transform: scale(1.08);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      z-index: 5; /* prevent clipping */
+      z-index: 5;
     }
-
-    /* Responsive videos for smaller screens */
     @media (max-width: 900px) {
-      .video-item iframe {
-        width: 100%;
-        height: 220px;
-      }
+      .video-item iframe { width: 100%; height: 220px; }
     }
 
     /* Art gallery */
     .art-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px; /* more room to prevent cutoff */
+      gap: 30px;
     }
     .art-item {
       position: relative;
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
       border-radius: 12px;
-      overflow: visible; /* prevent hover cutoff */
+      overflow: visible;
     }
     .art-item img {
       width: 100%;
       height: auto;
-      object-fit: contain;
       border-radius: 12px;
       display: block;
     }
@@ -101,8 +95,21 @@
     .art-item:hover {
       transform: scale(1.08);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      z-index: 5; /* bring above neighbors */
+      z-index: 5;
     }
+
+    /* Hover magnify icon */
+    .hover-icon {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(255,255,255,0.9);
+      font-size: 42px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .art-item:hover .hover-icon { opacity: 1; }
 
     /* Lightbox */
     .lightbox {
@@ -128,50 +135,28 @@
       max-width: 600px;
       margin: 20px auto;
     }
-    .contact-form label {
-      display: flex;
-      flex-direction: column;
-      font-weight: bold;
-    }
-    .contact-form input, 
-    .contact-form textarea {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      margin-top: 5px;
+    .contact-form input, .contact-form textarea {
+      padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;
     }
     .contact-form button {
-      padding: 12px;
-      background: #111;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s;
+      padding: 12px; background: #111; color: #fff;
+      border: none; border-radius: 8px; font-size: 16px; cursor: pointer;
     }
-    .contact-form button:hover {
-      background: #1da1f2;
-    }
+    .contact-form button:hover { background: #1da1f2; }
     
     /* Lightbox Arrows */
     .lightbox .prev, .lightbox .next {
-      display: none; /* hidden unless comic book is open */
+      display: none;
       cursor: pointer;
       position: absolute;
       top: 50%;
       padding: 16px;
-      margin-top: -22px;
       color: #fff;
-      font-weight: bold;
       font-size: 40px;
       user-select: none;
-      transition: 0.3s;
     }
     .lightbox .prev { left: 10px; }
     .lightbox .next { right: 10px; }
-    .lightbox .prev:hover, .lightbox .next:hover { color: #bbb; }
 
     /* Zoom buttons */
     .lightbox .zoom-in, .lightbox .zoom-out {
@@ -182,10 +167,8 @@
       color: #fff;
       font-size: 28px;
       padding: 10px 15px;
-      margin-left: 10px;
       border-radius: 50%;
       cursor: pointer;
-      transition: background 0.3s;
       z-index: 1000;
     }
     .lightbox .zoom-out { right: 80px; }
@@ -209,19 +192,24 @@
 
   <section id="about">
     <h2>About Me</h2>
-    <p style="text-align:center;">I’m Jordan Celaya, a cartoonist and filmmaker driven by storytelling through both moving images and still illustrations. My work blends humor, surrealism, and character-driven narratives, whether I’m creating short films, designing comics, or producing digital art. I aim to make people laugh, think, and connect with the stories I share.</p>
+    <p style="text-align:center;">My name is Jordan Celaya, and I am a Cartoonist and a Filmmaker. Look around and enjoy.</p>
   </section>
 
   <!-- YouTube Video Scroll -->
   <section id="videos">
     <h2>My Films</h2>
     <div class="video-scroll">
+      <!-- First the 3 recent -->
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/wtAR97q_B-8" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/mldbCkNu0Y0" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/5VyP8e4-QoE" frameborder="0" allowfullscreen></iframe></div>
+      <!-- Then the others -->
       <div class="video-item"><iframe src="https://www.youtube.com/embed/yd3sQFfv0i4" frameborder="0" allowfullscreen></iframe></div>
       <div class="video-item"><iframe src="https://www.youtube.com/embed/DYdv7fuMH7s" frameborder="0" allowfullscreen></iframe></div>
       <div class="video-item"><iframe src="https://www.youtube.com/embed/7CKwllQWGFY" frameborder="0" allowfullscreen></iframe></div>
       <div class="video-item"><iframe src="https://www.youtube.com/embed/tzDxUuU8SAg" frameborder="0" allowfullscreen></iframe></div>
       <div class="video-item"><iframe src="https://www.youtube.com/embed/rJ83N3_FYpw" frameborder="0" allowfullscreen></iframe></div>
-      <div class="video-item"><iframe src="https://www.youtube.com/embed/Yum6Trwtkk" frameborder="0" allowfullscreen></iframe></div>
+      <div class="video-item"><iframe src="https://www.youtube.com/embed/_Yum6Trwtkk" frameborder="0" allowfullscreen></iframe></div>
       <div class="video-item"><iframe src="https://www.youtube.com/embed/1oJIiPiV0z8" frameborder="0" allowfullscreen></iframe></div>
     </div>
   </section>
@@ -232,18 +220,22 @@
     <div class="art-gallery">
       <div class="art-item comic-set">
         <img src="images/Page1-Melaia.png" alt="Comic Book – Page 1">
+        <i class="fas fa-search-plus hover-icon"></i>
         <div class="overlay">3-Page Comic Book</div>
       </div>
       <div class="art-item">
         <img src="images/art1.png" alt="K'nala's Guitar - Concept Art">
+        <i class="fas fa-search-plus hover-icon"></i>
         <div class="overlay">K'nala's Guitar - Concept Art</div>
       </div>
       <div class="art-item">
         <img src="images/art2.png" alt="Unwanted Veingun - Poster">
+        <i class="fas fa-search-plus hover-icon"></i>
         <div class="overlay">Unwanted Veingun - Poster</div>
       </div>
       <div class="art-item">
         <img src="images/art3.png" alt="Romecha & Naomi - Character Concept">
+        <i class="fas fa-search-plus hover-icon"></i>
         <div class="overlay">Romecha & Naomi - Character Concept</div>
       </div>
     </div>
@@ -305,30 +297,19 @@
       lightboxImg.src = currentSet[currentIndex];
       captionText.innerHTML = alt;
 
-      // Show arrows only for comics
-      if (currentSet.length > 1) {
-        prev.style.display = "block";
-        next.style.display = "block";
-      } else {
-        prev.style.display = "none";
-        next.style.display = "none";
-      }
+      if (currentSet.length > 1) { prev.style.display = "block"; next.style.display = "block"; }
+      else { prev.style.display = "none"; next.style.display = "none"; }
     }
 
-    // Reset zoom & pan
     function resetZoom() {
-      zoomLevel = 1;
-      imgX = 0;
-      imgY = 0;
+      zoomLevel = 1; imgX = 0; imgY = 0;
       lightboxImg.style.transform = "translate(0px,0px) scale(1)";
     }
 
-    // Artworks
+    // Artwork clicks
     artworks.forEach(img => {
       if (!img.closest(".comic-set")) {
-        img.onclick = function () {
-          openLightbox(this.src, this.alt);
-        };
+        img.onclick = function () { openLightbox(this.src, this.alt); };
       }
     });
 
@@ -337,13 +318,8 @@
       openLightbox(comicPages[0], "Comic Book – Page 1", comicPages);
     };
 
-    // Close button
-    close.onclick = () => {
-      lightbox.style.display = "none";
-      resetZoom();
-    };
-
-    // Prev / Next
+    // Controls
+    close.onclick = () => { lightbox.style.display = "none"; resetZoom(); };
     function changePage(step) {
       currentIndex = (currentIndex + step + currentSet.length) % currentSet.length;
       lightboxImg.src = currentSet[currentIndex];
@@ -353,59 +329,44 @@
     prev.onclick = () => changePage(-1);
     next.onclick = () => changePage(1);
 
-    // Zoom
-    zoomIn.onclick = () => {
-      zoomLevel += 0.2;
-      lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
-    };
+    zoomIn.onclick = () => { zoomLevel += 0.2; lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`; };
     zoomOut.onclick = () => {
       zoomLevel = Math.max(1, zoomLevel - 0.2);
       if (zoomLevel === 1) { imgX = 0; imgY = 0; }
       lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
     };
 
-    // Drag-to-pan (mouse)
+    // Dragging
     lightboxImg.addEventListener("mousedown", e => {
       if (zoomLevel <= 1) return;
-      isDragging = true;
-      startX = e.clientX - imgX;
-      startY = e.clientY - imgY;
-      e.preventDefault();
+      isDragging = true; startX = e.clientX - imgX; startY = e.clientY - imgY; e.preventDefault();
     });
     window.addEventListener("mousemove", e => {
       if (!isDragging) return;
-      imgX = e.clientX - startX;
-      imgY = e.clientY - startY;
+      imgX = e.clientX - startX; imgY = e.clientY - startY;
       lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
     });
     window.addEventListener("mouseup", () => isDragging = false);
 
-    // Drag-to-pan (touch for iOS/Android)
     lightboxImg.addEventListener("touchstart", e => {
       if (zoomLevel <= 1) return;
-      isDragging = true;
-      const touch = e.touches[0];
-      startX = touch.clientX - imgX;
-      startY = touch.clientY - imgY;
+      isDragging = true; const touch = e.touches[0];
+      startX = touch.clientX - imgX; startY = touch.clientY - imgY;
     });
     lightboxImg.addEventListener("touchmove", e => {
       if (!isDragging) return;
       const touch = e.touches[0];
-      imgX = touch.clientX - startX;
-      imgY = touch.clientY - startY;
+      imgX = touch.clientX - startX; imgY = touch.clientY - startY;
       lightboxImg.style.transform = `translate(${imgX}px, ${imgY}px) scale(${zoomLevel})`;
     });
     lightboxImg.addEventListener("touchend", () => isDragging = false);
 
-    // Keyboard support
+    // Keyboard navigation
     document.addEventListener("keydown", e => {
       if (lightbox.style.display === "block") {
         if (e.key === "ArrowLeft") changePage(-1);
         if (e.key === "ArrowRight") changePage(1);
-        if (e.key === "Escape") {
-          lightbox.style.display = "none";
-          resetZoom();
-        }
+        if (e.key === "Escape") { lightbox.style.display = "none"; resetZoom(); }
       }
     });
   </script>
